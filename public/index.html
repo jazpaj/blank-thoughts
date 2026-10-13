@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Blank Thoughts — Coming Soon</title>
+  <meta name="description" content="Something is being written. Built from scratch, produced in New York. Save your place.">
+  <meta name="theme-color" content="#0A0A0D">
+  <meta property="og:title" content="Blank Thoughts — Coming Soon">
+  <meta property="og:description" content="Something is being written. You’ll want to read it first.">
+  <meta property="og:url" content="https://ourblankthoughts.com/">
+  <meta property="og:type" content="website">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow:wght@500;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Pinyon+Script&display=swap">
+  <link rel="stylesheet" href="/css/styles.css">
+  <link rel="preload" href="/assets/logo/logo-caps.png" as="image">
+  <link rel="preload" href="/assets/logo/logo-our.png" as="image">
+  <link rel="modulepreload" href="/js/validate.js">
+  <script type="module" src="/js/main.js"></script>
+</head>
+<body class="is-loading">
+  <!-- Background: a dream of New York at night -->
+  <div class="scene" aria-hidden="true">
+    <div class="scene__media" data-parallax="scene">
+      <canvas class="scene__canvas"></canvas>
+      <video class="scene__video" muted loop playsinline autoplay preload="none" disablepictureinpicture></video>
+    </div>
+    <div class="scene__tint"></div>
+    <div class="scene__grain"></div>
+  </div>
+
+  <!-- Intro: the thought, left blank -->
+  <div class="intro" aria-hidden="true">
+    <p class="intro__text"><span class="intro__word"></span><span class="intro__ellipsis"></span><span class="caret caret--intro"></span></p>
+  </div>
+
+  <main class="stage">
+    <div class="card-float" data-parallax="card">
+      <article class="card" aria-labelledby="brand">
+        <div class="card__surface" aria-hidden="true">
+          <div class="card__reveal"></div>
+          <canvas class="card__veil"></canvas>
+          <div class="card__paper"></div>
+        </div>
+        <svg class="card__rule" aria-hidden="true" focusable="false">
+          <rect x="0.5" y="0.5" width="100%" height="100%" pathLength="1"/>
+        </svg>
+
+        <div class="card__body">
+          <header class="card__head">
+            <h1 id="brand" class="logo enter" style="--i:0">
+              <span class="sr-only">Our Blank Thoughts</span>
+              <!-- Official logo, extracted from the brand image (brand-source/logo-instagram-1080.jpg) as two
+                   aligned white-on-transparent layers so the intro can land the typed "Our" on the script.
+                   Swap for the vector SVG from the design file when it arrives (see README). -->
+              <span class="logo__art" aria-hidden="true">
+                <img class="logo__caps" src="/assets/logo/logo-caps.png" alt="" width="735" height="219" decoding="async" fetchpriority="high">
+                <img class="logo__our" src="/assets/logo/logo-our.png" alt="" width="735" height="219" decoding="async">
+                <span class="logo__our-target"></span>
+              </span>
+            </h1>
+            <p class="origin enter" style="--i:1">Built from scratch <span aria-hidden="true">·</span> Produced in New York</p>
+          </header>
+
+          <div class="views">
+            <!-- Signup view -->
+            <section class="view view--signup" aria-label="Join the waitlist">
+              <p class="status enter" style="--i:2">Coming Soon</p>
+              <p class="teaser enter" style="--i:3">
+                <span class="teaser__line" aria-hidden="true"><span class="teaser__text"></span><span class="caret caret--teaser"></span></span>
+                <span class="sr-only teaser__sr">Something is being written. You’ll want to read it first.</span>
+              </p>
+
+              <form class="form" method="post" novalidate autocomplete="on">
+                <div class="field enter" style="--i:4">
+                  <label class="sr-only" for="f-name">Name</label>
+                  <input id="f-name" name="name" type="text" autocomplete="name" placeholder="Your name"
+                         maxlength="80" required aria-describedby="e-name" spellcheck="false">
+                  <p class="field__error" id="e-name"></p>
+                </div>
+
+                <div class="field enter" style="--i:5">
+                  <label class="sr-only" for="f-email">Email</label>
+                  <input id="f-email" name="email" type="email" autocomplete="email" inputmode="email"
+                         placeholder="Your email" maxlength="254" required aria-describedby="e-email" spellcheck="false">
+                  <p class="field__error" id="e-email"></p>
+                </div>
+
+                <div class="field enter" style="--i:6">
+                  <label class="sr-only" for="f-phone">Phone (optional)</label>
+                  <input id="f-phone" name="phone" type="tel" autocomplete="tel" inputmode="tel"
+                         placeholder="Your phone (optional)" maxlength="17" aria-describedby="h-phone e-phone">
+                  <p class="field__hint" id="h-phone">Add your number for first access by text.</p>
+                  <p class="field__error" id="e-phone"></p>
+                </div>
+
+                <div class="consent" data-open="false">
+                  <div class="consent__inner" inert>
+                    <div class="consent__row">
+                      <input id="f-sms" name="smsConsent" type="checkbox" class="checkbox" aria-describedby="e-sms">
+                      <label for="f-sms" class="consent__text">I agree to receive recurring marketing texts from Blank Thoughts at the number provided. Consent is not a condition of purchase. Msg &amp; data rates may apply. Reply STOP to opt out.</label>
+                    </div>
+                    <p class="consent__links"><a href="/privacy">Privacy Policy</a> <span aria-hidden="true">·</span> <a href="/sms-terms">Terms</a></p>
+                    <p class="field__error" id="e-sms"></p>
+                  </div>
+                </div>
+
+                <!-- Honeypot: hidden from people, irresistible to bots -->
+                <div class="hp" aria-hidden="true">
+                  <label for="f-company">Company</label>
+                  <input id="f-company" name="company" type="text" tabindex="-1" autocomplete="off">
+                </div>
+                <div class="turnstile" hidden></div>
+
+                <div class="enter" style="--i:7">
+                  <button class="button" type="submit"><span class="button__label">Save my place</span></button>
+                </div>
+                <p class="form__error" role="alert"></p>
+              </form>
+            </section>
+
+            <!-- Success view -->
+            <section class="view view--success" hidden tabindex="-1" aria-labelledby="success-title">
+              <h2 class="success__title" id="success-title">Your thought has been saved.</h2>
+              <p class="success__line">We’ll text you before anyone else.</p>
+              <div class="success__place">
+                <p class="success__number"><span class="success__youre">You’re</span> <span class="success__num">#0000</span></p>
+                <p class="success__caption">your place in line</p>
+              </div>
+              <a class="success__ig" href="https://www.instagram.com/ourblankthoughts/" target="_blank" rel="noopener">
+                <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="#icon-instagram"/></svg>
+                <span><span class="success__cta">Follow the thought</span> <span class="success__handle">@ourblankthoughts</span></span>
+              </a>
+            </section>
+          </div>
+        </div>
+
+        <!-- Tactile detail: wax seal, pressed again when a thought is saved -->
+        <div class="seal" aria-hidden="true">
+          <svg viewBox="0 0 120 120" focusable="false">
+            <defs>
+              <radialGradient id="seal-wax" cx="38%" cy="32%" r="75%">
+                <stop offset="0" stop-color="#A3214A"/>
+                <stop offset=".45" stop-color="#76002A"/>
+                <stop offset="1" stop-color="#3A0012"/>
+              </radialGradient>
+              <radialGradient id="seal-pool" cx="50%" cy="50%" r="50%">
+                <stop offset=".72" stop-color="#5E001F" stop-opacity="0"/>
+                <stop offset=".93" stop-color="#2B000C" stop-opacity=".55"/>
+                <stop offset="1" stop-color="#2B000C" stop-opacity="0"/>
+              </radialGradient>
+              <radialGradient id="seal-gloss" cx="34%" cy="26%" r="40%">
+                <stop offset="0" stop-color="#fff" stop-opacity=".32"/>
+                <stop offset="1" stop-color="#fff" stop-opacity="0"/>
+              </radialGradient>
+            </defs>
+            <path class="seal__wax" fill="url(#seal-wax)" d="M113.1 60.0 L112.7 63.5 L111.7 66.8 L110.3 70.0 L108.2 72.9 L107.6 76.2 L108.6 80.1 L107.5 83.4 L104.5 85.7 L102.0 88.1 L99.3 90.1 L95.9 91.5 L93.5 93.5 L91.2 95.6 L88.0 96.5 L85.8 98.6 L84.7 102.7 L82.6 105.8 L79.7 107.5 L76.6 108.9 L73.1 108.8 L69.6 108.2 L66.6 110.2 L63.5 112.8 L60.0 113.0 L56.6 112.5 L53.1 112.2 L50.0 110.2 L47.1 108.0 L44.1 106.9 L41.7 104.3 L39.8 101.0 L36.9 100.0 L33.2 100.1 L30.0 99.1 L26.8 97.8 L24.2 95.8 L23.3 92.2 L22.0 89.2 L18.5 87.8 L15.3 85.8 L13.3 83.0 L10.9 80.3 L9.4 77.2 L9.4 73.5 L8.8 70.2 L8.5 66.8 L10.9 63.2 L13.1 60.0 L12.9 56.9 L12.5 53.7 L12.3 50.5 L11.6 47.0 L12.9 44.0 L16.2 41.9 L17.8 39.2 L17.9 35.7 L18.9 32.5 L19.9 29.3 L20.7 25.5 L22.8 22.8 L25.3 20.4 L27.1 17.2 L30.2 15.5 L34.7 16.1 L38.4 16.1 L41.4 15.1 L44.4 14.2 L47.2 12.2 L50.1 10.1 L53.6 11.0 L56.9 13.0 L60.0 13.0 L63.1 12.7 L66.2 13.0 L69.5 12.1 L73.0 11.5 L76.2 12.2 L79.9 11.9 L84.0 11.3 L86.9 13.4 L88.8 17.0 L90.9 19.8 L92.8 22.6 L94.9 25.1 L98.5 26.3 L101.3 28.3 L101.6 32.2 L101.9 35.8 L103.0 38.8 L103.3 42.1 L104.1 45.0 L106.0 47.7 L106.9 50.7 L107.7 53.7 L110.7 56.7Z"/>
+            <circle cx="60" cy="60" r="47" fill="url(#seal-pool)"/>
+            <!-- pressed rim: shadow below, highlight above = debossed ring -->
+            <circle cx="60.7" cy="60.9" r="35" fill="none" stroke="#2B000C" stroke-opacity=".7" stroke-width="2.4"/>
+            <circle cx="59.4" cy="59.3" r="35" fill="none" stroke="#FFB9CB" stroke-opacity=".28" stroke-width="1.6"/>
+            <circle cx="60" cy="60" r="35" fill="none" stroke="#6E0026" stroke-width="1.6"/>
+            <g class="seal__dots" fill="#2B000C" fill-opacity=".55">
+              <circle cx="60" cy="19.5" r="1.3"/><circle cx="60" cy="100.5" r="1.3"/>
+              <circle cx="19.5" cy="60" r="1.3"/><circle cx="100.5" cy="60" r="1.3"/>
+            </g>
+            <g class="seal__mark" text-anchor="middle">
+              <text x="61" y="71.2" class="seal__text" fill="#2B000C" fill-opacity=".8">NY</text>
+              <text x="59.3" y="69.4" class="seal__text" fill="#FFB9CB" fill-opacity=".3">NY</text>
+              <text x="60" y="70.2" class="seal__text" fill="#6A0023">NY</text>
+            </g>
+            <ellipse cx="44" cy="36" rx="30" ry="20" fill="url(#seal-gloss)"/>
+          </svg>
+        </div>
+      </article>
+    </div>
+  </main>
+
+  <footer class="footer enter-footer">
+    <p class="footer__row">
+      <span>Powered by AfterScroll Studios</span>
+      <span class="footer__dot" aria-hidden="true">·</span>
+      <a class="footer__ig" href="https://www.instagram.com/ourblankthoughts/" target="_blank" rel="noopener" aria-label="Blank Thoughts on Instagram (@ourblankthoughts)">
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="#icon-instagram"/></svg>
+      </a>
+      <span class="footer__dot" aria-hidden="true">·</span>
+      <a href="mailto:info@ourblankthoughts.com">info@ourblankthoughts.com</a>
+    </p>
+  </footer>
+
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <symbol id="icon-instagram" viewBox="0 0 24 24">
+      <rect x="3" y="3" width="18" height="18" rx="5.2" fill="none" stroke="currentColor" stroke-width="1.5"/>
+      <circle cx="12" cy="12" r="4.1" fill="none" stroke="currentColor" stroke-width="1.5"/>
+      <circle cx="17.3" cy="6.7" r="1.05" fill="currentColor"/>
+    </symbol>
+  </svg>
+
+  <noscript>
+    <style>.intro{display:none}.enter,.card,.footer,.scene{opacity:1!important;transform:none!important}.card__rule rect{stroke-dashoffset:0!important}</style>
+  </noscript>
+</body>
+</html>

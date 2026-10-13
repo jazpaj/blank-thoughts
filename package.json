@@ -1,0 +1,14 @@
+{
+  "name": "blank-thoughts-coming-soon",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Blank Thoughts — Coming Soon landing page and waitlist",
+  "type": "module",
+  "engines": { "node": ">=22.9" },
+  "scripts": {
+    "start": "node --env-file-if-exists=.env server.js",
+    "dev": "node --env-file-if-exists=.env --watch server.js",
+    "export": "node scripts/export-signups.js",
+    "test": "node --test tests/*.test.js"
+  }
+}

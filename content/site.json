@@ -1,0 +1,42 @@
+{
+  "_howTo": "Edit this file to change copy and teaser media. No code change or redeploy needed: the live site picks up changes on the next page load. Keys starting with _ are notes and are never sent to the browser. Every new teaser line or reveal image should also be posted on @ourblankthoughts (see README > Instagram tie-in).",
+
+  "teaserLines": [
+    { "text": "Something is being written. You’ll want to read it first.", "_instagram": "" },
+    { "text": "Fill in the blank.", "_instagram": "" },
+    { "text": "Some thoughts are better worn.", "_instagram": "" },
+    { "text": "Made in New York. Meant for you.", "_instagram": "" },
+    { "text": "Not ready to say it yet.", "_instagram": "" }
+  ],
+  "teaserHoldMs": 3400,
+
+  "_revealImagesHelp": "Close-up teaser photos for the hidden reveal. Drop files in public/assets/reveal/ and list them here. focus = which part to crop to (CSS background-position), zoom = how tightly to crop (2 = 200%). One is picked at random per visit. While this list is empty the site shows a placeholder fabric texture.",
+  "revealImages": [],
+
+  "_videoHelp": "Background video. Put files in public/assets/video/ (or a CDN URL). While desktop.mp4 is null the site shows the built-in animated placeholder night scene.",
+  "video": {
+    "poster": "/assets/video/bg-poster.jpg",
+    "desktop": { "mp4": "/assets/video/bg.mp4", "webm": null },
+    "mobile": { "mp4": "/assets/video/bg.mp4", "webm": null }
+  },
+
+  "success": {
+    "heading": "Your thought has been saved.",
+    "lineSms": "We’ll text you before anyone else.",
+    "lineEmail": "We’ll write to you before anyone else.",
+    "duplicateHeading": "Your thought was already saved.",
+    "instagramCta": "Follow the thought"
+  },
+
+  "instagram": {
+    "handle": "ourblankthoughts",
+    "url": "https://www.instagram.com/ourblankthoughts/"
+  },
+
+  "_welcomeMessages": {
+    "_note": "Reference copy for the Klaviyo welcome flow (the site does not send these itself). DRAFT, pending client approval.",
+    "sms": "Thought saved. More soon. — BT, NYC.",
+    "emailSubject": "Thought saved.",
+    "emailBody": "You’re on the list. We’re not ready to say it yet, but you’ll hear it first. — BT, NYC."
+  }
+}

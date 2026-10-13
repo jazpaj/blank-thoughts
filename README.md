@@ -106,10 +106,19 @@ These are needed from the client or need sign-off. The site runs without them, b
 - **Phone-tilt parallax** works on Android. iOS requires a permission prompt for motion data, which would break the mood, so iPhones get the static float.
 - Code (HTML/CSS/JS) is served with `Cache-Control: no-cache` + ETag, so edits go live immediately; images/video are cached for a day.
 
+## Hosting
+
+- **Repo:** https://github.com/jazpaj/blank-thoughts (private)
+- **Preview:** https://blank-thoughts.vercel.app, deployed with `vercel deploy --prod` from this folder (Vercel project `blank-thoughts`, team *jpajarin's projects*). Static files are served from `public/` by Vercel's CDN; `/api/*` runs `app.js` as a serverless function (`api/index.js`, `vercel.json`).
+- **The preview does not keep signups.** Serverless functions can only write to `/tmp`, which is wiped whenever an instance recycles, so waitlist numbers there restart from #0001 and records are lost. Use it to review the design and flow, not to collect real signups.
+- **For launch,** either run `npm start` on a host with a persistent disk (Render, Railway, Fly.io, a VPS; set `DATA_DIR` if needed), or keep Vercel and move the store to a database (e.g. Vercel KV / Postgres) by swapping `lib/store.js`. Connecting Klaviyo also gives a durable copy of every signup.
+
 ## Structure
 
 ```
-server.js              HTTP server: static files, /api/content, /api/signup, CSV export
+app.js                 request handler: static files, /api/content, /api/signup, CSV export
+server.js              local/VM entry point (npm start)
+api/index.js           Vercel entry point (same handler); config in vercel.json
 lib/store.js           waitlist store (JSON file, atomic writes) + CSV export
 lib/integrations.js    Klaviyo + Turnstile (inert until configured)
 content/site.json      editable copy and media

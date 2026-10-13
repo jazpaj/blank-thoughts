@@ -104,14 +104,22 @@ function clientIp(req) {
 }
 
 async function readJson(req, limit = 8 * 1024) {
-  // Serverless runtimes (Vercel) may have parsed the body already
-  if (req.body !== undefined) {
-    if (Buffer.isBuffer(req.body) || typeof req.body === 'string') {
-      if (req.body.length > limit) throw Object.assign(new Error('Payload too large'), { status: 413 });
-      try { return JSON.parse(String(req.body) || '{}'); } catch { throw Object.assign(new Error('Invalid JSON'), { status: 400 }); }
+  // Serverless runtimes (Vercel) parse the body lazily via a getter that throws on bad JSON
+  let parsed;
+  try {
+    parsed = req.body;
+  } catch {
+    throw Object.assign(new Error('Invalid JSON'), { status: 400 });
+  }
+  if (parsed !== undefined) {
+    const raw = Buffer.isBuffer(parsed) || typeof parsed === 'string' ? String(parsed) : JSON.stringify(parsed ?? {});
+    if (raw.length > limit) throw Object.assign(new Error('Payload too large'), { status: 413 });
+    if (typeof parsed === 'object' && !Buffer.isBuffer(parsed)) return parsed ?? {};
+    try {
+      return JSON.parse(raw || '{}');
+    } catch {
+      throw Object.assign(new Error('Invalid JSON'), { status: 400 });
     }
-    if (JSON.stringify(req.body ?? {}).length > limit) throw Object.assign(new Error('Payload too large'), { status: 413 });
-    return req.body ?? {};
   }
   let size = 0;
   const chunks = [];

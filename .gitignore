@@ -5,3 +5,4 @@ data/*.tmp
 .DS_Store
 .vercel
 .claude/
+.env*

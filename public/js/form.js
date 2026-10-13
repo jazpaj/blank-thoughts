@@ -162,13 +162,18 @@ export function initForm({ form, onSuccess, content }) {
       return;
     }
 
+    if (!(await content).signupsEnabled) {
+      formError.textContent = 'This is a preview. Signups open at launch.';
+      return;
+    }
+
     busy = true;
     button.setAttribute('aria-busy', 'true');
     label.textContent = 'Saving';
 
     try {
       const turnstileToken = getTurnstileToken ? await getTurnstileToken() : undefined;
-      const res = await fetch('/api/signup', {
+      const res = await fetch('api/signup', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

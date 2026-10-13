@@ -28,10 +28,24 @@ const FALLBACK = {
   },
   instagram: { handle: 'ourblankthoughts', url: 'https://www.instagram.com/ourblankthoughts/' },
   turnstileSiteKey: null,
+  signupsEnabled: true,
 };
 
-const content = fetch('/api/content')
-  .then((r) => (r.ok ? r.json() : Promise.reject()))
+const getJson = (url) => fetch(url).then((r) => (r.ok ? r.json() : Promise.reject()));
+
+// The server (local / Vercel) serves live copy and accepts signups. A static host
+// (GitHub Pages) has no server: it ships content/site.json as content.json and
+// the form explains that signups aren't open on the preview.
+const content = getJson('api/content')
+  .then((c) => ({ ...c, signupsEnabled: true }))
+  .catch(() =>
+    getJson('content.json').then((c) => ({
+      ...c,
+      teaserLines: (c.teaserLines ?? []).map((l) => (typeof l === 'string' ? l : l?.text)).filter(Boolean),
+      revealImages: c.revealImages ?? [],
+      signupsEnabled: false,
+    })),
+  )
   .then((c) => ({ ...FALLBACK, ...c, success: { ...FALLBACK.success, ...c.success } }))
   .catch(() => FALLBACK);
 

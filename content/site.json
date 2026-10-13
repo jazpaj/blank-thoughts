@@ -15,9 +15,9 @@
 
   "_videoHelp": "Background video. Put files in public/assets/video/ (or a CDN URL). While desktop.mp4 is null the site shows the built-in animated placeholder night scene.",
   "video": {
-    "poster": "/assets/video/bg-poster.jpg",
-    "desktop": { "mp4": "/assets/video/bg.mp4", "webm": null },
-    "mobile": { "mp4": "/assets/video/bg.mp4", "webm": null }
+    "poster": "assets/video/bg-poster.jpg",
+    "desktop": { "mp4": "assets/video/bg.mp4", "webm": null },
+    "mobile": { "mp4": "assets/video/bg.mp4", "webm": null }
   },
 
   "success": {

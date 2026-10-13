@@ -3,7 +3,7 @@
 // slowly settles back, so the card always returns to blank.
 
 const WINE = '#7E0227'; // must match --wine in styles.css
-const PLACEHOLDER = { src: '/assets/reveal/placeholder-texture.svg', focus: '42% 55%', zoom: '150%' };
+const PLACEHOLDER = { src: 'assets/reveal/placeholder-texture.svg', focus: '42% 55%', zoom: '150%' };
 
 export function initVeil({ card, canvas, layer, images }) {
   const ctx = canvas.getContext('2d');
@@ -24,7 +24,8 @@ export function initVeil({ card, canvas, layer, images }) {
   const pick = pool[Math.floor(Math.random() * pool.length)];
   const img = new Image();
   img.onload = () => {
-    layer.style.setProperty('--reveal-src', `url("${pick.src}")`);
+    // Absolute, because a relative url() in a custom property can resolve against the stylesheet
+    layer.style.setProperty('--reveal-src', `url("${new URL(pick.src, document.baseURI).href}")`);
     layer.style.setProperty('--reveal-focus', pick.focus ?? '50% 50%');
     layer.style.setProperty('--reveal-zoom', pick.zoom ?? '220%');
     enabled = true;

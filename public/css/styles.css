@@ -28,9 +28,9 @@
   --ease-out: cubic-bezier(.16, 1, .3, 1);
   --ease-silk: cubic-bezier(.65, 0, .35, 1);
 
-  --card-w: 548px;
+  --card-w: 500px;
   --fold: 104px;        /* folded bottom-right corner */
-  --card-pad-x: 72px;
+  --card-pad-x: 62px;
   --card-pad-y: 48px;
   --rule-inset: 20px;
 

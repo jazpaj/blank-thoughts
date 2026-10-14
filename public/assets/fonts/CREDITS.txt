@@ -1,6 +1,0 @@
-Butler
-Designed by Fabian De Smet.
-Licensed under Creative Commons Attribution-ShareAlike (CC BY-SA).
-Source: https://fontlibrary.org/en/font/butler
-
-Used unmodified on this site for "Coming Soon", the teaser line and the form fields.

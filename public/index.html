@@ -43,6 +43,35 @@
     <div class="card-float" data-parallax="card">
       <article class="card" aria-labelledby="brand">
         <div class="card__surface" aria-hidden="true">
+          <!-- Satin folds: a lit sweep across the top-left, a soft fold down the bottom-right -->
+          <svg class="card__satin" viewBox="0 0 100 100" preserveAspectRatio="none" focusable="false">
+            <defs>
+              <linearGradient id="satin-sheen" x1="0" y1="0" x2=".9" y2=".9">
+                <stop offset="0" stop-color="#FFD3DD" stop-opacity=".11"/>
+                <stop offset=".45" stop-color="#FFD3DD" stop-opacity=".05"/>
+                <stop offset="1" stop-color="#FFD3DD" stop-opacity="0"/>
+              </linearGradient>
+              <linearGradient id="satin-fold" x1="1" y1=".1" x2=".55" y2="1">
+                <stop offset="0" stop-color="#FFD3DD" stop-opacity=".04"/>
+                <stop offset=".45" stop-color="#FFD3DD" stop-opacity=".07"/>
+                <stop offset="1" stop-color="#FFD3DD" stop-opacity=".02"/>
+              </linearGradient>
+              <linearGradient id="satin-shade" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0" stop-color="#2B000C" stop-opacity=".05"/>
+                <stop offset="1" stop-color="#2B000C" stop-opacity=".4"/>
+              </linearGradient>
+              <filter id="satin-soft" x="-10%" y="-10%" width="120%" height="120%"><feGaussianBlur stdDeviation=".8"/></filter>
+            </defs>
+            <!-- top-left sweep: a lit satin panel bounded by a curved fold -->
+            <path d="M0 0 H40 C 30 7, 15 21, 0 50 Z" fill="url(#satin-sheen)"/>
+            <path d="M0 0 H30 C 21 6, 10 16, 0 34 Z" fill="#FFD3DD" fill-opacity=".03" filter="url(#satin-soft)"/>
+            <path d="M40 0 C 30 7, 15 21, 0 50 L 0 46 C 13 19, 27 6, 36 0 Z" fill="#FFE3EA" fill-opacity=".06" filter="url(#satin-soft)"/>
+            <path d="M40 0 C 30 7, 15 21, 0 50" fill="none" stroke="#FFE3EA" stroke-opacity=".26" stroke-width="1" vector-effect="non-scaling-stroke"/>
+            <!-- bottom-right fold: a raised, lit band along the edge, shaded beyond its crease -->
+            <path d="M100 14 C 96 44, 89 74, 62 100 H100 Z" fill="url(#satin-shade)"/>
+            <path d="M100 14 C 96 44, 89 74, 62 100 L 80 100 C 95 80, 99 52, 100 34 Z" fill="url(#satin-fold)" filter="url(#satin-soft)"/>
+            <path d="M100 14 C 96 44, 89 74, 62 100" fill="none" stroke="#FFE3EA" stroke-opacity=".22" stroke-width="1" vector-effect="non-scaling-stroke"/>
+          </svg>
           <canvas class="card__veil"></canvas>
           <div class="card__paper"></div>
         </div>
@@ -78,22 +107,31 @@
               <form class="form" method="post" novalidate autocomplete="on">
                 <div class="field enter" style="--i:4">
                   <label class="sr-only" for="f-name">Name</label>
-                  <input id="f-name" name="name" type="text" autocomplete="name" placeholder="Your name"
+                  <div class="field__control">
+                    <svg class="field__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="8.2" r="3.7"/><path d="M4.8 20c.6-3.9 3.6-6.2 7.2-6.2s6.6 2.3 7.2 6.2"/></svg>
+                    <input id="f-name" name="name" type="text" autocomplete="name" placeholder="Your name"
                          maxlength="80" required aria-describedby="e-name" spellcheck="false">
+                  </div>
                   <p class="field__error" id="e-name"></p>
                 </div>
 
                 <div class="field enter" style="--i:5">
                   <label class="sr-only" for="f-email">Email</label>
-                  <input id="f-email" name="email" type="email" autocomplete="email" inputmode="email"
+                  <div class="field__control">
+                    <svg class="field__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="3.2" y="5.6" width="17.6" height="12.8" rx="1.6"/><path d="m3.6 6.4 8.4 6.6 8.4-6.6M3.8 17.6l6.2-5.8M20.2 17.6 14 11.8"/></svg>
+                    <input id="f-email" name="email" type="email" autocomplete="email" inputmode="email"
                          placeholder="Your email" maxlength="254" required aria-describedby="e-email" spellcheck="false">
+                  </div>
                   <p class="field__error" id="e-email"></p>
                 </div>
 
                 <div class="field enter" style="--i:6">
                   <label class="sr-only" for="f-phone">Phone (optional)</label>
-                  <input id="f-phone" name="phone" type="tel" autocomplete="tel" inputmode="tel"
+                  <div class="field__control">
+                    <svg class="field__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M7.1 3.8 9.3 3.6l1.6 4.1-2 1.4a10.6 10.6 0 0 0 5.9 5.9l1.4-2 4.1 1.6-.2 2.2c-.1 1.2-1.1 2.1-2.3 2.1C9.7 18.9 5 14.3 5 6.3c0-1.3.9-2.3 2.1-2.5Z"/></svg>
+                    <input id="f-phone" name="phone" type="tel" autocomplete="tel" inputmode="tel"
                          placeholder="Your phone (optional)" maxlength="17" aria-describedby="e-phone">
+                  </div>
                   <p class="field__error" id="e-phone"></p>
                 </div>
 

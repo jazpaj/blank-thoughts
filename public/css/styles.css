@@ -34,8 +34,11 @@
   --card-pad-y: 48px;
   --rule-inset: 20px;
 
-  /* Paper: low-frequency mottling for uneven tone (the fine tooth is --noise) */
-  --mottle: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='600' height='600'><filter id='m'><feTurbulence type='fractalNoise' baseFrequency='.006 .009' numOctaves='4' seed='11' stitchTiles='stitch'/><feColorMatrix type='saturate' values='0'/></filter><rect width='100%' height='100%' filter='url(%23m)'/></svg>");
+  /* Paper texture (generated, no image files):
+     --mottle: soft tonal clouds; --tooth-light / --tooth-dark: fine specks of a cotton stock */
+  --mottle: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='520' height='520'><filter id='m'><feTurbulence type='fractalNoise' baseFrequency='.008 .012' numOctaves='4' seed='11' stitchTiles='stitch'/><feColorMatrix type='saturate' values='0'/><feComponentTransfer><feFuncR type='linear' slope='1.9' intercept='-.45'/><feFuncG type='linear' slope='1.9' intercept='-.45'/><feFuncB type='linear' slope='1.9' intercept='-.45'/></feComponentTransfer></filter><rect width='100%' height='100%' filter='url(%23m)'/></svg>");
+  --tooth-light: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='t'><feTurbulence type='fractalNoise' baseFrequency='1.1' numOctaves='2' seed='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 .92  0 0 0 0 .86  1.6 0 0 0 -.95'/></filter><rect width='100%' height='100%' filter='url(%23t)'/></svg>");
+  --tooth-dark: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='d'><feTurbulence type='fractalNoise' baseFrequency='.95' numOctaves='2' seed='8' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 .12  0 0 0 0 0  0 0 0 0 0  -1.6 0 0 0 .75'/></filter><rect width='100%' height='100%' filter='url(%23d)'/></svg>");
   --noise: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/><feColorMatrix type='saturate' values='0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
 }
 
@@ -233,7 +236,7 @@ p { margin: 0; }
   border-radius: 3px;
   background:
     /* slightly purer than the target red: the paper layers grey it a touch */
-    radial-gradient(120% 55% at 50% -8%, rgba(124, 11, 12, .7) 0%, transparent 62%),
+    radial-gradient(120% 55% at 50% -8%, rgba(124, 11, 12, .4) 0%, transparent 62%),
     radial-gradient(140% 110% at 50% 45%, #6C0507 48%, #5E0304 100%);
   clip-path: polygon(0 0, 100% 0, 100% calc(100% - var(--fold)), calc(100% - var(--fold)) 100%, 0 100%);
   isolation: isolate;
@@ -250,11 +253,12 @@ p { margin: 0; }
   opacity: .62;
 }
 
-/* Paper: uneven tone and a fine, matte tooth, like heavy stationery */
+/* Paper: uneven tone plus a fine, matte tooth of light and dark specks, like cotton stationery */
 .card__paper {
   position: absolute;
   inset: 0;
   pointer-events: none;
+  box-shadow: inset 0 0 90px rgba(25, 0, 2, .38);
 }
 .card__paper::before,
 .card__paper::after {
@@ -262,18 +266,19 @@ p { margin: 0; }
   position: absolute;
   inset: 0;
 }
+/* tonal clouds, blended straight into the red */
 .card__paper::before {
   background-image: var(--mottle);
-  background-size: 560px;
+  background-size: 520px;
   mix-blend-mode: soft-light;
-  opacity: .36;
+  opacity: .55;
 }
+/* the tooth */
 .card__paper::after {
-  background-image: var(--noise);
-  background-size: 110px;   /* finer tooth reads as matte stock, not digital noise */
-  mix-blend-mode: soft-light;
-  opacity: .34;
-  box-shadow: inset 0 0 90px rgba(25, 0, 2, .38);
+  background-image: var(--tooth-light), var(--tooth-dark);
+  background-size: 160px, 160px;
+  background-position: 0 0, 37px 61px;
+  opacity: .5;
 }
 
 /* Folded corner: the page turns back to show its darker underside, casting a soft shadow */

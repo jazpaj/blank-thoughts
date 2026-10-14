@@ -443,13 +443,6 @@ p { margin: 0; }
   transition: background-color 9999s;
 }
 
-.field__hint {
-  margin-top: 8px;
-  font-style: italic;
-  font-size: 14px;
-  line-height: 1.35;
-  color: var(--blush-80);
-}
 
 .field__error {
   margin-top: 7px;
@@ -784,7 +777,6 @@ p { margin: 0; }
   .teaser { font-size: 17px; margin-bottom: 18px; }
   .field input { height: 46px; font-size: 16px; } /* 16px+ avoids iOS zoom-on-focus */
   .field + .field { margin-top: 10px; }
-  .field__hint { font-size: 13.5px; }
   .button { height: 50px; margin-top: 16px; }
   .success__title { font-size: 26px; }
   .seal { width: 74px; height: 74px; right: 14px; bottom: -30px; }
@@ -794,7 +786,9 @@ p { margin: 0; }
 
 @media (max-width: 360px) {
   :root { --card-pad-x: 20px; }
-  .origin { letter-spacing: .2em; margin-right: -.2em; }
+  .origin { font-size: 8px; letter-spacing: .16em; margin-right: -.16em; }
+  .button { letter-spacing: .24em; }
+  .button__label { margin-right: -.24em; }
 }
 
 /* Short desktop windows (most laptops): tighten vertical rhythm so it stays one screen */
@@ -809,7 +803,6 @@ p { margin: 0; }
   .teaser { margin: 2px auto 12px; font-size: 17.5px; }
   .field input { height: 43px; }
   .field + .field { margin-top: 9px; }
-  .field__hint { margin-top: 6px; font-size: 13.5px; }
   .consent__row { padding-top: 10px; }
   .consent__text { font-size: 12.5px; line-height: 1.42; }
   .button { height: 46px; margin-top: 13px; }
@@ -817,11 +810,10 @@ p { margin: 0; }
   .footer { padding-bottom: 14px; }
 }
 
-/* Very short windows: let the hint give way to the consent text once it appears */
+/* Very short windows: a wider card keeps the consent text to fewer lines */
 @media (min-width: 521px) and (max-height: 700px) {
   .card-float { --card-w: 500px; }
   .stage { padding-top: 10px; padding-bottom: 30px; }
-  .form:has(.consent[data-open="true"]) .field__hint { display: none; }
 }
 
 @media (prefers-reduced-motion: reduce) {

@@ -11,7 +11,6 @@ const $ = (sel) => document.querySelector(sel);
 const FALLBACK = {
   teaserLines: [
     'Something is being written. You’ll want to read it first.',
-    'Fill in the blank.',
     'Some thoughts are better worn.',
     'Made in New York. Meant for you.',
     'Not ready to say it yet.',

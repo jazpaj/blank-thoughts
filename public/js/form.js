@@ -206,7 +206,7 @@ export function initForm({ form, onSuccess, content }) {
     } finally {
       busy = false;
       button.removeAttribute('aria-busy');
-      label.textContent = 'Save my place';
+      label.textContent = 'Enter Blank Thoughts';
     }
   });
 }

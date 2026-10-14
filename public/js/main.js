@@ -60,7 +60,6 @@ content.then((c) =>
 
 // Form + success
 let teaser = null;
-const card = $('.card');
 const views = $('.views');
 const signup = $('.view--signup');
 const success = $('.view--success');
@@ -93,11 +92,6 @@ async function showSuccess({ position, duplicate, sms }) {
   views.style.height = `${success.offsetHeight}px`;
   requestAnimationFrame(() => success.classList.add('is-entering'));
   success.focus({ preventScroll: true });
-
-  const seal = card.querySelector('.seal');
-  seal.classList.remove('is-pressing');
-  seal.offsetWidth;
-  seal.classList.add('is-pressing'); // the thought is sealed
 
   setTimeout(() => {
     views.style.height = '';

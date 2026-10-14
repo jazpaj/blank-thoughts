@@ -60,7 +60,7 @@ Add the licensed clips to `public/assets/video/` (or a CDN) and fill in:
 }
 ```
 
-**Currently configured:** `bg.mp4`, an aerial of Manhattan at night (1280×720, 11 s, H.264, no audio, 3.6 MB, fast-start), with `bg-poster.jpg` taken from its first frame. The same file serves desktop and mobile: it is already 720p, and the macOS re-encoder produced a *larger* file, so a dedicated lighter mobile cut (~2 MB) and a WebM are worth exporting from the editing software if mobile data matters.
+**Currently configured:** `bg.mp4`, a daytime aerial of the Manhattan skyline over the East River (1280×720, 22.5 s, H.264, no audio, 8.0 MB, fast-start), with `bg-poster.jpg` taken from its first frame. The same file serves desktop and mobile. At 8 MB it is above the brief's 5 MB target, so a lighter mobile cut (~2 MB) and a WebM are worth exporting from the editing software if mobile load time matters.
 
 The video is shown as-is: no blur or colour overlay (removed at the client's request; this departs from the brief's "heavy blur + wine overlay"). The page only adds light film grain, parallax, and a soft dark fade at the bottom so the footer stays legible (`.scene__tint` in styles.css). Visitors with *reduce motion* switched on see only the poster. If no video is configured, an animated placeholder night scene (bokeh + taxi streaks) is drawn instead.
 
@@ -100,7 +100,7 @@ These are needed from the client or need sign-off. The site runs without them, b
 ## Notes and assumptions
 
 - **Fonts** load from Google Fonts: Pinyon Script (script accents), Barlow (caps), Cormorant Garamond (body/form). Script is used for at most two words per screen.
-- **Tactile detail:** a wine wax seal stamped "NY", which presses down again when a thought is saved.
+- **Tactile detail:** the "NY" wax seal was removed at the client's request; the stationery card (inset hairline, paper grain) and the hidden reveal carry the tactile feel.
 - **Success line:** "We'll text you before anyone else." is shown when the person gave a number and SMS consent; email-only signups see "We'll write to you before anyone else."
 - **Intro** plays once per browser session; a click or keypress skips it. Reduced-motion users get no typing, no parallax and a still background.
 - **Phone-tilt parallax** works on Android. iOS requires a permission prompt for motion data, which would break the mood, so iPhones get the static float.

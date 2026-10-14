@@ -67,7 +67,7 @@ To swap the video, just replace `public/assets/video/bg.mp4` (and `bg-poster.jpg
 The video is shown as-is, at full quality: never re-encoded, no zoom, no blur or colour overlay (removed at the client's request; this departs from the brief's "heavy blur + wine overlay"). The page only adds light film grain, parallax, and a soft dark fade at the bottom so the footer stays legible (`.scene__tint` in styles.css). Visitors with *reduce motion* switched on see only the poster. If no video is configured, an animated placeholder night scene (bokeh + taxi streaks) is drawn instead.
 
 ### Logo
-The card uses the official logo, extracted from the Instagram logo image (`brand-source/logo-instagram-1080.jpg`) into two aligned white-on-transparent layers in `public/assets/logo/`. They are split so the intro can land the typed "Our" exactly on the script. When the vector SVG from the design file arrives, export the same two layers ("Our" alone, and "BLANK THOUGHTS" alone, same artboard) and swap the `src`s in `index.html`.
+The lockup keeps the official script **"Our"** (extracted from the Instagram logo image, `brand-source/logo-instagram-1080.jpg`, as a white-on-transparent layer in `public/assets/logo/logo-our.png`). At the client's request, **BLANK / THOUGHTS** is set in **Bodoni Moda Bold** (live SVG text in `index.html`, styled by `.logo__caps`) instead of the original sans-serif capitals, in the same positions on the same 735×219 artboard so the intro still lands the typed "Our" on the script. Note this now differs from the Instagram logo, which still uses the sans capitals; update the brand files to match, or tell the developer to switch back. When a vector logo arrives, replace `logo-our.png` with its "Our" layer (same artboard).
 
 ---
 
@@ -91,7 +91,7 @@ These are needed from the client or need sign-off. The site runs without them, b
 
 - [ ] **Background video licence**: confirm `bg.mp4` is cleared for commercial web use (optional: lighter mobile cut + WebM)
 - [ ] **1–2 close-up teaser photos** for the hidden reveal
-- [ ] **Vector logo SVG** (current logo is a high-res extraction from the Instagram image)
+- [ ] **Vector logo SVG** for the script "Our" (current one is a high-res extraction from the Instagram image), and a decision on whether the Instagram logo moves to the Bodoni capitals too
 - [ ] **Exact brand hex codes** (wine is currently `#7E0227`, sampled from the logo image; the brief's approximation was `#7D0029`)
 - [ ] **Privacy Policy and SMS Terms text** (`public/privacy.html`, `public/sms-terms.html` are placeholders)
 - [ ] **Legal review** of the SMS consent wording (TCPA)

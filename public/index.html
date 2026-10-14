@@ -18,7 +18,6 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..700;1,6..96,400..700&family=Pinyon+Script&display=swap">
   <link rel="stylesheet" href="css/styles.css">
-  <link rel="preload" href="assets/logo/logo-caps.png" as="image">
   <link rel="preload" href="assets/logo/logo-our.png" as="image">
   <link rel="modulepreload" href="js/validate.js">
   <script type="module" src="js/main.js"></script>
@@ -61,11 +60,14 @@
           <header class="card__head">
             <h1 id="brand" class="logo enter" style="--i:0">
               <span class="sr-only">Our Blank Thoughts</span>
-              <!-- Official logo, extracted from the brand image (brand-source/logo-instagram-1080.jpg) as two
-                   aligned white-on-transparent layers so the intro can land the typed "Our" on the script.
-                   Swap for the vector SVG from the design file when it arrives (see README). -->
+              <!-- Logo lockup: the official script "Our" (artwork extracted from brand-source/logo-instagram-1080.jpg)
+                   with BLANK / THOUGHTS set in Bodoni Moda, at the client's request, in the same positions as
+                   the original capitals. Both layers share the 735x219 artboard so the intro can land "Our". -->
               <span class="logo__art" aria-hidden="true">
-                <img class="logo__caps" src="assets/logo/logo-caps.png" alt="" width="735" height="219" decoding="async" fetchpriority="high">
+                <svg class="logo__caps" viewBox="0 0 735 219" focusable="false">
+                  <text x="228" y="98">BLANK</text>
+                  <text x="118" y="208">THOUGHTS</text>
+                </svg>
                 <img class="logo__our" src="assets/logo/logo-our.png" alt="" width="735" height="219" decoding="async">
                 <span class="logo__our-target"></span>
               </span>

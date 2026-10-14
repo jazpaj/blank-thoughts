@@ -328,13 +328,24 @@ p { margin: 0; }
   aspect-ratio: 735 / 219;
   margin: 0 auto;
 }
-.logo__art img {
+.logo__art img,
+.logo__caps {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
   user-select: none;
   -webkit-user-drag: none;
+}
+.logo__caps {
+  overflow: visible;
+  fill: var(--ivory);
+  font-family: var(--f-serif);
+  font-size: 104px;
+  font-weight: 700;
+  /* The lockup renders ~30-40px tall on the card; the text-size cut keeps the hairlines visible there */
+  font-variation-settings: "opsz" 28;
+  letter-spacing: 1px;
 }
 /* The letters of the script "Our" in the artwork (swash excluded); bottom edge = baseline.
    The intro flight lands the typed "Our" here. Measured from the 735x219 artwork. */

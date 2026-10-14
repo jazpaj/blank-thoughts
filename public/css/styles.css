@@ -688,19 +688,23 @@ p { margin: 0; }
 }
 .success__handle { font-style: italic; font-size: 16px; letter-spacing: .02em; margin-left: 4px; }
 
-/* ---------- Footer -------------------------------------------------------- */
+/* ---------- Footer: a full-width dark bar ------------------------------------ */
 
 .footer {
   position: relative;
   z-index: 2;
-  padding: 0 16px max(22px, env(safe-area-inset-bottom));
+  padding: 13px 20px max(13px, env(safe-area-inset-bottom));
+  background: rgba(8, 6, 7, .82);
+  border-top: 1px solid rgba(214, 182, 152, .22);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
   text-align: center;
   font-family: var(--f-serif);
-  font-size: 9.5px;
-  font-weight: 500;
-  letter-spacing: .26em;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: .2em;
   text-transform: uppercase;
-  color: var(--blush-65);
+  color: var(--ivory);
   opacity: 0;
   transition: opacity 1.4s ease 2.1s;
 }
@@ -713,16 +717,24 @@ p { margin: 0; }
   justify-content: center;
   gap: 6px 14px;
 }
-.footer a { text-decoration: none; transition: color .3s ease; }
-.footer a:hover { color: var(--ivory); }
+/* Links stay the same white as the text; a faint underline appears on hover */
+.footer a {
+  color: inherit;
+  text-decoration: underline;
+  text-decoration-color: transparent;
+  text-underline-offset: 3px;
+  transition: text-decoration-color .3s ease;
+}
+.footer a:hover,
+.footer a:focus-visible { text-decoration-color: rgba(246, 235, 225, .6); }
 .footer__ig { display: inline-flex; padding: 4px; margin: -4px; }
-.footer .icon { width: 15px; height: 15px; display: block; }
-.footer__dot { opacity: .6; }
+.footer .icon { width: 16px; height: 16px; display: block; }
+.footer__dot { opacity: .5; }
 
 /* ---------- Responsive ---------------------------------------------------- */
 
-/* The serif footer is wide: stack it before it can wrap unevenly */
-@media (max-width: 720px) {
+/* Stack the footer on phones, before it can wrap unevenly */
+@media (max-width: 600px) {
   .footer__row { flex-direction: column; gap: 10px; }
   .footer__dot { display: none; }
 }

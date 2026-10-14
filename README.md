@@ -97,11 +97,11 @@ These are needed from the client or need sign-off. The site runs without them, b
 - [ ] **Legal review** of the SMS consent wording (TCPA)
 - [ ] **Klaviyo access**: list ID, private key, welcome email + SMS flow, then one end-to-end test signup
 - [ ] **Turnstile keys** (Cloudflare) to enable the invisible bot check
-- [ ] **Approval** of fonts (Bodoni Moda + Pinyon Script), teaser lines, success copy and welcome-text wording
+- [ ] **Approval** of fonts (Cormorant Garamond, Montserrat, Inter for the logo capitals), teaser lines, success copy and welcome-text wording
 
 ## Notes and assumptions
 
-- **Fonts** load from Google Fonts: **Bodoni Moda**, the high-contrast didone of fashion mastheads, for all text and caps except the logo capitals, which use Inter (chosen at the client's request for a clothing-brand feel; replaces the brief's Barlow / Cormorant suggestions), and Pinyon Script for the "Coming Soon" accent. The logo itself is artwork, so its lettering is unchanged.
+- **Fonts** load from Google Fonts: **Cormorant Garamond** for all supporting text (tagline, "Coming Soon" in italic, teaser lines, form, footer), **Montserrat** for the button, **Inter** for the logo capitals, and Pinyon Script only for the typed "Our…" in the intro. The script "Our" in the logo is artwork.
 - **Tactile detail:** the card's bottom-right corner is folded back (the brief's "folded page corner" option; the earlier "NY" wax seal was removed at the client's request). The inset hairline stops at the fold and the flap carries its own; `js/frame.js` draws the line, and the fold size is the `--fold` CSS variable.
 - **Success line:** "We'll text you before anyone else." is shown when the person gave a number and SMS consent; email-only signups see "We'll write to you before anyone else."
 - **Intro** plays once per browser session; a click or keypress skips it. Reduced-motion users get no typing, no parallax and a still background.

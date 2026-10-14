@@ -9,22 +9,22 @@ body {
   box-sizing: border-box;
   background: radial-gradient(ellipse at 50% 0%, #2a0a0a, var(--midnight) 65%);
   color: var(--blush);
-  font: 400 16px/1.7 'Bodoni Moda', Didot, 'Times New Roman', serif;
+  font: 500 18px/1.6 'Cormorant Garamond', Garamond, 'Times New Roman', serif;
   -webkit-font-smoothing: antialiased;
 }
 .legal {
   width: min(620px, 100%);
   padding: 48px 40px;
   background: radial-gradient(130% 75% at 50% -5%, #7B1416, transparent 60%), var(--wine);
-  border-radius: 6px;
-  outline: 1px solid rgba(233, 196, 178, .74);
+  border-radius: 3px;
+  outline: 1px solid rgba(214, 182, 152, .62);
   outline-offset: -16px;
   box-shadow: 0 34px 60px -24px rgba(0, 0, 0, .6);
 }
 .legal--center { text-align: center; }
 h1 { margin: 18px 0 24px; font-weight: 500; font-size: 30px; line-height: 1.15; color: #fff; }
 .legal__back, .legal__pending {
-  font-family: 'Bodoni Moda', Didot, serif;
+  font-family: 'Montserrat', 'Helvetica Neue', Arial, sans-serif;
   font-size: 10px;
   letter-spacing: .14em;
   text-transform: uppercase;

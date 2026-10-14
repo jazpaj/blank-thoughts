@@ -16,14 +16,14 @@
   --wine-deep: #2A0506;
   --blush-80: rgba(241, 227, 214, .84);
   --blush-65: rgba(241, 227, 214, .68);
-  --hairline: rgba(233, 196, 178, .74);   /* champagne rule */
-  --line-soft: rgba(233, 196, 178, .46);
+  --hairline: rgba(214, 182, 152, .62);   /* muted champagne rule */
+  --line-soft: rgba(214, 182, 152, .5);
   --error: #FFD3C2;
 
   --f-script: 'Pinyon Script', 'Snell Roundhand', cursive;
-  /* Bodoni Moda: the high-contrast didone of fashion mastheads and garment labels */
-  --f-serif: 'Bodoni Moda', 'Didot', 'Bodoni 72', 'Times New Roman', serif;
-  --f-logo: 'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif; /* logo caps, small caps, button */
+  --f-serif: 'Cormorant Garamond', 'EB Garamond', Garamond, 'Times New Roman', serif; /* supporting text */
+  --f-sans: 'Montserrat', 'Helvetica Neue', Arial, sans-serif;                     /* button */
+  --f-logo: 'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif;               /* logo caps */
 
   --ease-out: cubic-bezier(.16, 1, .3, 1);
   --ease-silk: cubic-bezier(.65, 0, .35, 1);
@@ -230,10 +230,10 @@ p { margin: 0; }
   position: absolute;
   inset: 0;
   overflow: hidden;
-  border-radius: 6px;
+  border-radius: 3px;
   background:
     /* slightly purer than the target red: the paper layers grey it a touch */
-    radial-gradient(120% 60% at 50% -8%, #7C0B0C 0%, transparent 62%),
+    radial-gradient(120% 55% at 50% -8%, rgba(124, 11, 12, .7) 0%, transparent 62%),
     radial-gradient(140% 110% at 50% 45%, #6C0507 48%, #5E0304 100%);
   clip-path: polygon(0 0, 100% 0, 100% calc(100% - var(--fold)), calc(100% - var(--fold)) 100%, 0 100%);
   isolation: isolate;
@@ -250,7 +250,7 @@ p { margin: 0; }
   opacity: .62;
 }
 
-/* Paper: uneven tone and a fine tooth */
+/* Paper: uneven tone and a fine, matte tooth, like heavy stationery */
 .card__paper {
   position: absolute;
   inset: 0;
@@ -264,19 +264,19 @@ p { margin: 0; }
 }
 .card__paper::before {
   background-image: var(--mottle);
-  background-size: 640px;
+  background-size: 560px;
   mix-blend-mode: soft-light;
-  opacity: .3;
+  opacity: .36;
 }
 .card__paper::after {
   background-image: var(--noise);
-  background-size: 140px;
+  background-size: 110px;   /* finer tooth reads as matte stock, not digital noise */
   mix-blend-mode: soft-light;
-  opacity: .22;
+  opacity: .34;
   box-shadow: inset 0 0 90px rgba(25, 0, 2, .38);
 }
 
-/* Curled corner: the page lifts and turns back, casting a soft shadow on the card */
+/* Folded corner: the page turns back to show its darker underside, casting a soft shadow */
 .card__fold {
   position: absolute;
   right: 0;
@@ -292,13 +292,13 @@ p { margin: 0; }
   height: 100%;
   overflow: visible;
   filter:
-    drop-shadow(-5px -2px 7px rgba(20, 0, 0, .45))
-    drop-shadow(-1px 0 1px rgba(20, 0, 0, .35));
+    drop-shadow(-6px -3px 8px rgba(15, 0, 0, .5))
+    drop-shadow(-1px -1px 1px rgba(15, 0, 0, .4));
 }
 .card__fold-edge {
   fill: none;
-  stroke: rgba(255, 196, 176, .38);
-  stroke-width: 1.2;
+  stroke: rgba(230, 170, 150, .28);
+  stroke-width: 1;
 }
 
 /* Thin inset hairline that draws itself */
@@ -388,24 +388,24 @@ p { margin: 0; }
 .is-flying .logo__our { opacity: 0; transition: none; }
 
 .origin {
-  margin-top: 16px;
-  font-family: var(--f-logo);
-  font-weight: 500;
-  font-size: 10.5px;
+  margin-top: 20px;
+  font-family: var(--f-serif);
+  font-weight: 600;
+  font-size: 12.5px;
   line-height: 1.6;
-  letter-spacing: .3em;
+  letter-spacing: .26em;
   text-transform: uppercase;
   color: var(--blush-80);
   /* letter-spacing adds trailing space: pull it back so the line is optically centred */
-  margin-right: -.3em;
+  margin-right: -.26em;
 }
 
 .card__head::after {
   content: '';
   display: block;
-  width: 34px;
+  width: 40px;
   height: 1px;
-  margin: 24px auto 0;
+  margin: 26px auto 0;
   background: var(--hairline);
 }
 
@@ -414,23 +414,26 @@ p { margin: 0; }
 .views { position: relative; }
 
 .status {
-  margin-top: 20px;
-  font-family: var(--f-script);
-  font-size: 46px;
+  margin-top: 30px;
+  font-family: var(--f-serif);
+  font-style: italic;
+  font-weight: 500;
+  font-size: 50px;
   line-height: 1.05;
+  letter-spacing: .005em;
   color: var(--ivory);
 }
 
 .teaser {
   min-height: 2.8em;
   max-width: 31ch;
-  margin: 6px auto 22px;
+  margin: 10px auto 26px;
   display: flex;
   align-items: center;
   justify-content: center;
   font-family: var(--f-serif);
   font-style: italic;
-  font-size: 17px;
+  font-size: 19px;
   line-height: 1.5;
   color: var(--blush);
 }
@@ -441,38 +444,21 @@ p { margin: 0; }
 /* Fields: outlined, letter-spaced, quiet */
 .form { text-align: center; }
 
-.field + .field { margin-top: 12px; }
-
-.field__control { position: relative; }
-
-.field__icon {
-  position: absolute;
-  left: 18px;
-  top: 50%;
-  width: 19px;
-  height: 19px;
-  transform: translateY(-50%);
-  fill: none;
-  stroke: var(--blush-80);
-  stroke-width: 1.2;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-  pointer-events: none;
-}
+.field + .field { margin-top: 14px; }
 
 .field input {
   display: block;
   width: 100%;
-  height: 52px;
-  padding: 0 18px 0 54px;
+  height: 54px;
+  padding: 0 22px;
   border: 1px solid var(--line-soft);
   border-radius: 0;
-  background: rgba(255, 140, 120, .055);
+  background: rgba(255, 140, 120, .035);
   color: var(--ivory);
   font-family: var(--f-serif);
-  font-size: 16px;
-  font-weight: 400;
-  letter-spacing: .04em;
+  font-size: 19px;
+  font-weight: 500;
+  letter-spacing: .01em;
   text-align: left;
   appearance: none;
   outline: none;
@@ -480,7 +466,7 @@ p { margin: 0; }
 }
 .field input::placeholder {
   color: var(--blush-65);
-  letter-spacing: .04em;
+  letter-spacing: .01em;
   opacity: 1;
   transition: opacity .3s ease;
 }
@@ -551,7 +537,7 @@ p { margin: 0; }
 .checkbox[aria-invalid="true"] { border-color: var(--error); }
 
 .consent__text {
-  font-size: 13px;
+  font-size: 14.5px;
   line-height: 1.5;
   letter-spacing: .01em;
   color: var(--blush-80);
@@ -589,28 +575,28 @@ p { margin: 0; }
   position: relative;
   display: block;
   width: 100%;
-  height: 56px;
+  height: 58px;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 22px;
-  margin-top: 22px;
+  margin-top: 26px;
   padding: 0;
   border: 1px solid var(--blush);
   border-radius: 0;
   background: var(--blush);
   color: var(--wine);
   box-shadow: 0 10px 22px -14px rgba(0, 0, 0, .6);
-  font-family: var(--f-logo);
-  font-size: 13px;
+  font-family: var(--f-sans);
+  font-size: 12.5px;
   font-weight: 600;
-  letter-spacing: .28em;
+  letter-spacing: .3em;
   text-transform: uppercase;
   cursor: pointer;
   overflow: hidden;
   transition: background-color .4s ease, color .4s ease, border-color .4s ease, transform .2s ease;
 }
-.button__label { display: inline-block; margin-right: -.28em; }
+.button__label { display: inline-block; margin-right: -.3em; }
 .button__arrow {
   flex: none;
   width: 24px;
@@ -789,46 +775,44 @@ p { margin: 0; }
 @media (max-width: 520px) {
   :root {
     --card-pad-x: 30px;
-    --card-pad-y: 40px;
+    --card-pad-y: 42px;
     --rule-inset: 14px;
     --fold: 76px;
   }
   .stage { padding-top: max(20px, env(safe-area-inset-top)); padding-bottom: 44px; }
   .logo__art { width: min(256px, 100%); }
-  .origin { font-size: 10.5px; letter-spacing: .06em; margin-right: -.06em; margin-top: 12px; }
-  .card__head::after { margin-top: 18px; }
-  .status { font-size: 40px; margin-top: 14px; }
-  .teaser { font-size: 16px; margin-bottom: 18px; }
-  .field input { height: 50px; padding: 0 14px 0 46px; } /* 16px font avoids iOS zoom-on-focus */
-  .field__icon { left: 15px; width: 18px; height: 18px; }
-  .button { gap: 14px; letter-spacing: .22em; }
+  .origin { font-size: 11px; letter-spacing: .12em; margin-right: -.12em; margin-top: 16px; }
+  .card__head::after { margin-top: 20px; }
+  .status { font-size: 42px; margin-top: 22px; }
+  .teaser { font-size: 17.5px; margin-bottom: 22px; }
+  .field input { height: 52px; padding: 0 18px; } /* 16px+ font avoids iOS zoom-on-focus */
+  .field + .field { margin-top: 12px; }
+  .button { height: 52px; margin-top: 22px; gap: 14px; letter-spacing: .22em; }
   .button__label { margin-right: -.22em; }
-  .field + .field { margin-top: 10px; }
-  .button { height: 50px; margin-top: 18px; }
-  .success__title { font-size: 26px; }
+  .success__title { font-size: 28px; }
 }
 
 @media (max-width: 360px) {
   :root { --card-pad-x: 24px; }
-  .origin { font-size: 9.5px; letter-spacing: .03em; margin-right: -.03em; }
+  .origin { font-size: 10px; letter-spacing: .06em; margin-right: -.06em; }
   .button { letter-spacing: .16em; }
   .button__label { margin-right: -.16em; }
 }
 
 /* Short desktop windows (most laptops): tighten vertical rhythm so it stays one screen */
-@media (min-width: 521px) and (max-height: 980px) {
-  :root { --card-pad-y: 32px; --rule-inset: 16px; --fold: 84px; }
+@media (min-width: 521px) and (max-height: 1060px) {
+  :root { --card-pad-y: 34px; --rule-inset: 16px; --fold: 84px; }
   .stage { padding-top: 18px; padding-bottom: 30px; }
   .logo__art { width: min(262px, 100%); }
-  .origin { margin-top: 10px; }
-  .card__head::after { margin-top: 14px; }
-  .status { margin-top: 10px; font-size: 38px; }
-  .teaser { margin: 2px auto 12px; }
-  .field input { height: 46px; }
-  .field + .field { margin-top: 9px; }
+  .origin { margin-top: 14px; }
+  .card__head::after { margin-top: 18px; }
+  .status { margin-top: 18px; font-size: 44px; }
+  .teaser { margin: 4px auto 16px; font-size: 18px; }
+  .field input { height: 48px; }
+  .field + .field { margin-top: 11px; }
   .consent__row { padding-top: 10px; }
-  .consent__text { font-size: 12px; line-height: 1.45; }
-  .button { height: 48px; margin-top: 16px; }
+  .consent__text { font-size: 13.5px; line-height: 1.4; }
+  .button { height: 50px; margin-top: 18px; }
   .success__place { margin: 22px auto 20px; }
   .footer { padding-bottom: 14px; }
 }
@@ -838,14 +822,14 @@ p { margin: 0; }
   :root { --card-pad-y: 24px; --rule-inset: 13px; --fold: 60px; }
   .stage { padding-top: 10px; padding-bottom: 20px; }
   .logo__art { width: min(228px, 100%); }
-  .origin { font-size: 11px; margin-top: 8px; }
-  .card__head::after { margin-top: 10px; }
-  .status { margin-top: 6px; font-size: 34px; }
-  .teaser { min-height: 2.6em; margin: 0 auto 10px; font-size: 16px; line-height: 1.3; }
+  .origin { font-size: 11.5px; margin-top: 10px; }
+  .card__head::after { margin-top: 12px; }
+  .status { margin-top: 10px; font-size: 38px; }
+  .teaser { min-height: 2.6em; margin: 0 auto 10px; font-size: 17px; line-height: 1.3; }
   .field input { height: 42px; }
   .field + .field { margin-top: 8px; }
   .consent__row { padding-top: 8px; }
-  .consent__text { font-size: 11.5px; line-height: 1.4; }
+  .consent__text { font-size: 12.5px; line-height: 1.35; }
   .button { height: 44px; margin-top: 12px; }
   .footer { padding-bottom: 10px; }
 }

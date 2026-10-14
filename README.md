@@ -101,10 +101,10 @@ These are needed from the client or need sign-off. The site runs without them, b
 
 ## Notes and assumptions
 
-- **Fonts** load from Google Fonts: **Inter** for the logo capitals and, matching them, "Coming Soon", the teaser line and the form fields; **Cormorant Garamond** for the other supporting text (tagline, consent, success screen, footer); **Montserrat** for the button; and Pinyon Script only for the typed "Our…" in the intro. The script "Our" in the logo is artwork.
+- **Fonts** load from Google Fonts: **Inter** for the logo capitals and, matching them, "Coming Soon", the teaser line and the form fields; **Cormorant Garamond** for the other supporting text (tagline, consent, success screen, footer); **Montserrat** for the button; and Pinyon Script only for "You're" on the success screen. The script "Our" in the logo is artwork.
 - **Tactile detail:** the card's bottom-right corner is folded back (the brief's "folded page corner" option; the earlier "NY" wax seal was removed at the client's request). The inset hairline stops at the fold and the flap carries its own; `js/frame.js` draws the line, and the fold size is the `--fold` CSS variable.
 - **Success line:** "We'll text you before anyone else." is shown when the person gave a number and SMS consent; email-only signups see "We'll write to you before anyone else."
-- **Intro** plays once per browser session; a click or keypress skips it. Reduced-motion users get no typing, no parallax and a still background.
+- **Intro** plays once per browser session: the city fades in, the logo's script "Our" writes on, then BLANK THOUGHTS, the tagline, "Coming Soon" and the first teaser line print out over the city with no card behind them; finally the card (slightly transparent, ~85% opaque) arrives behind the words, bringing the fields and button with it. A click or keypress skips straight to the finished card. Reduced-motion users get no typing, no parallax and a still background.
 - **Phone-tilt parallax** works on Android. iOS requires a permission prompt for motion data, which would break the mood, so iPhones get the static float.
 - Code (HTML/CSS/JS) is served with `Cache-Control: no-cache` + ETag, so edits go live immediately; images/video are cached for a day.
 

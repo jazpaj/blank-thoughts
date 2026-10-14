@@ -143,31 +143,7 @@ p { margin: 0; }
   100% { transform: translate(-12px, 50px); }
 }
 
-/* ---------- Intro: "Our…" ------------------------------------------------- */
-
-.intro {
-  position: fixed;
-  inset: 0;
-  z-index: 10;
-  display: grid;
-  place-items: center;
-  pointer-events: none;
-}
-
-.intro__text {
-  font-family: var(--f-script);
-  font-size: clamp(60px, 9vw, 104px);
-  line-height: 1;
-  color: var(--ivory);
-  white-space: nowrap;
-  /* Optical centring: the script's swash pulls left */
-  padding-left: .1em;
-}
-
-.intro__word,
-.intro__ellipsis { display: inline-block; }
-.intro__word { transform-origin: 0 0; }
-.intro__ellipsis { transition: opacity .5s ease, filter .5s ease; }
+/* ---------- Typing caret (teaser) ------------------------------------------- */
 
 .caret {
   display: inline-block;
@@ -178,21 +154,10 @@ p { margin: 0; }
   background: currentColor;
   animation: blink 1.06s steps(1, end) infinite;
 }
-.caret--intro {
-  width: 2px;
-  height: .62em;
-  margin-left: .1em;
-  vertical-align: 0;
-  background: var(--blush);
-  transition: opacity .4s ease;
-}
 .caret.is-typing { animation: none; opacity: 1; }
 
 @keyframes blink { 50% { opacity: 0; } }
 
-.intro.is-leaving .intro__ellipsis,
-.intro.is-leaving .caret { opacity: 0; filter: blur(4px); }
-.intro.is-done { display: none; }
 
 /* ---------- Stage + card -------------------------------------------------- */
 
@@ -212,17 +177,39 @@ p { margin: 0; }
 
 .card {
   position: relative;
-  /* Shadow follows the cut corner, unlike box-shadow */
-  filter:
-    drop-shadow(0 40px 50px rgba(0, 0, 0, .55))
-    drop-shadow(0 10px 16px rgba(0, 0, 0, .35));
   opacity: 0;
-  transform: translateY(32px) scale(.985);
-  transition:
-    opacity 1s ease,
-    transform 1.3s var(--ease-out);
+  transition: filter 1.4s ease;
 }
-.is-revealed .card { opacity: 1; transform: none; }
+.is-printing .card,
+.is-revealed .card { opacity: 1; }
+/* Shadow follows the cut corner (unlike box-shadow); it arrives with the card */
+.is-revealed .card {
+  filter:
+    drop-shadow(0 40px 50px rgba(0, 0, 0, .5))
+    drop-shadow(0 10px 16px rgba(0, 0, 0, .3));
+}
+
+/* The card itself (surface, fold, hairline) arrives after the words have printed */
+.card__surface,
+.card__fold {
+  opacity: 0;
+  transform: translateY(14px) scale(.985);
+  transition: opacity 1.2s ease, transform 1.5s var(--ease-out);
+}
+.is-revealed .card__surface,
+.is-revealed .card__fold { opacity: 1; transform: none; }
+
+/* While printing: just the words over the city. The form waits and arrives with the card
+   (its .enter stagger then plays just behind the card's own fade-in). */
+.is-printing .enter { opacity: 1; transform: none; transition: none; }
+.is-printing .form .enter { opacity: 0; transform: translateY(10px); }
+.is-printing .card__head::after { opacity: 0; }
+.card__head::after { transition: opacity 1s ease .4s; }
+.type-ghost { visibility: hidden; }
+
+/* The script "Our" writes on from left to right */
+.is-printing .logo__our { clip-path: inset(0 100% 0 0); }
+.is-writing-our .logo__our { clip-path: inset(0 0 0 0); transition: clip-path 1.2s cubic-bezier(.45, 0, .25, 1); }
 
 /* Matte deep red card, with the bottom-right corner cut away where it folds back */
 .card__surface {
@@ -230,7 +217,8 @@ p { margin: 0; }
   inset: 0;
   overflow: hidden;
   border-radius: 3px;
-  background: radial-gradient(140% 110% at 50% 45%, var(--wine) 55%, #600A0C 100%); /* matte: no sheen */
+  /* matte, and slightly transparent: the city glows faintly through */
+  background: radial-gradient(140% 110% at 50% 45%, rgba(106, 16, 17, .84) 55%, rgba(96, 10, 12, .88) 100%);
   clip-path: polygon(0 0, 100% 0, 100% calc(100% - var(--fold)), calc(100% - var(--fold)) 100%, 0 100%);
   isolation: isolate;
 }
@@ -346,24 +334,14 @@ p { margin: 0; }
   font-weight: 500;
   letter-spacing: 1px;
 }
-/* The letters of the script "Our" in the artwork (swash excluded); bottom edge = baseline.
-   The intro flight lands the typed "Our" here. Measured from the artwork, in lockup units. */
-.logo__our-target {
-  position: absolute;
-  left: calc(14 / 735 * 100%);
-  top: calc(6 / 219 * 100%);
-  width: calc(205 / 735 * 100%);
-  height: calc(103 / 219 * 100%);
-}
+
 /* The official script "Our", tinted cream through its alpha shape */
 .logo__our {
   background: var(--ivory);
   -webkit-mask: url("../assets/logo/logo-our.png") center / 100% 100% no-repeat;
   mask: url("../assets/logo/logo-our.png") center / 100% 100% no-repeat;
 }
-/* The typed "Our" lands here; until then, keep the logo's own "Our" hidden */
-.logo__our { transition: opacity .6s ease; }
-.is-flying .logo__our { opacity: 0; transition: none; }
+
 
 .origin {
   margin-top: 20px;

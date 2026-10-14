@@ -1,6 +1,7 @@
-// Intro (0–2.5 s): black screen, a blinking cursor types "Our…" and pauses,
-// as if the thought is left blank. The city fades in behind. Then the card
-// rises, and the typed "Our" glides down to become the logo's "Our".
+// Intro: the city fades in, then the card's words print out in place (logo,
+// tagline, "Coming Soon", the teaser line) with no card behind them yet. Then
+// the card arrives behind the words, bringing the fields and button with it.
+// Any key or click finishes it at once.
 
 const SEEN_KEY = 'bt:intro-seen';
 
@@ -12,17 +13,36 @@ function session(get, value) {
   }
 }
 
-export async function playIntro({ reduced }) {
-  const body = document.body;
-  const intro = document.querySelector('.intro');
-  const text = intro.querySelector('.intro__text');
-  const word = intro.querySelector('.intro__word');
-  const ellipsis = intro.querySelector('.intro__ellipsis');
-  const caret = intro.querySelector('.caret--intro');
-  const card = document.querySelector('.card');
-  const logoOur = document.querySelector('.logo__our-target');
+/**
+ * Blanks an element's text and returns a function that types it back in place.
+ * The untyped remainder stays in the layout (invisible), so centred lines don't
+ * re-centre on every letter. Works for HTML elements and SVG <text>.
+ */
+function prepareTyping(el) {
+  const text = el.textContent;
+  const ns = el instanceof SVGElement ? 'http://www.w3.org/2000/svg' : 'http://www.w3.org/1999/xhtml';
+  const tag = el instanceof SVGElement ? 'tspan' : 'span';
+  const shown = document.createElementNS(ns, tag);
+  const ghost = document.createElementNS(ns, tag);
+  ghost.setAttribute('class', 'type-ghost');
+  ghost.textContent = text;
+  el.replaceChildren(shown, ghost);
 
-  // Any key or click skips ahead
+  return async (msPerChar, sleep) => {
+    for (let i = 1; i <= text.length; i++) {
+      shown.textContent = text.slice(0, i);
+      ghost.textContent = text.slice(i);
+      if (text[i - 1] !== ' ') await sleep(msPerChar);
+    }
+    el.textContent = text;
+  };
+}
+
+export async function playIntro({ reduced, onPrinted = () => {} }) {
+  const body = document.body;
+  const $ = (sel) => document.querySelector(sel);
+
+  // Any key or click finishes the sequence immediately
   let skipping = false;
   const pending = new Set();
   const skip = () => {
@@ -42,9 +62,14 @@ export async function playIntro({ reduced }) {
     pending.add(done);
   });
 
-  // Wait for the script face so nothing is typed in a fallback font
+  // Wait for the faces so nothing prints in a fallback font
   await Promise.race([
-    Promise.all([document.fonts.load('1em "Pinyon Script"'), document.fonts.load('500 1em "Cormorant Garamond"'), document.fonts.load('600 1em Montserrat'), document.fonts.load('300 1em Inter'), document.fonts.load('500 1em Inter')]),
+    Promise.all([
+      document.fonts.load('500 1em "Cormorant Garamond"'),
+      document.fonts.load('600 1em Montserrat'),
+      document.fonts.load('300 1em Inter'),
+      document.fonts.load('500 1em Inter'),
+    ]),
     new Promise((r) => setTimeout(r, 1500)),
   ]).catch(() => {});
 
@@ -58,68 +83,33 @@ export async function playIntro({ reduced }) {
 
   if (reduced || session(true)) {
     // No theatre for reduced-motion users or a second visit in the same session
-    intro.classList.add('is-done');
     body.classList.add('scene-in', 'is-revealed');
+    onPrinted();
     finish();
     return;
   }
 
-  // Reserve the final width so typing doesn't re-centre on every letter
-  word.textContent = 'Our';
-  ellipsis.textContent = '…';
-  text.style.width = `${text.getBoundingClientRect().width}px`;
-  text.style.textAlign = 'left';
-  word.textContent = '';
-  ellipsis.textContent = '';
+  // Blank every line that will print, then show the text without its card
+  const [blank, thoughts] = [...document.querySelectorAll('.logo__caps text')].map(prepareTyping);
+  const origin = prepareTyping($('.origin'));
+  const status = prepareTyping($('.status'));
+  body.classList.add('scene-in', 'is-printing');
 
-  await sleep(420);
-  setTimeout(() => body.classList.add('scene-in'), skipping ? 0 : 500);
-  await sleep(380);
+  await sleep(700); // let the city come up first
 
-  caret.classList.add('is-typing');
-  for (const ch of 'Our') {
-    word.textContent += ch;
-    await sleep(150 + Math.random() * 60);
-  }
-  caret.classList.remove('is-typing');
-  await sleep(420);
-  ellipsis.textContent = '…';
-  await sleep(skipping ? 0 : 1050); // the pause: a thought left blank
-  body.classList.add('scene-in');
+  // Logo: the script "Our" writes on while BLANK / THOUGHTS type beside it
+  body.classList.add('is-writing-our');
+  await blank(70, sleep);
+  await thoughts(70, sleep);
+  await sleep(160);
+  await origin(24, sleep);
+  await sleep(180);
+  await status(70, sleep);
+  onPrinted(); // the teaser line starts typing under "Coming Soon"
+  await sleep(1700); // let the first teaser line write itself
 
-  // --- Card reveal + "Our" glides into the logo
-  // Measure where the logo's "Our" will be once the card has settled.
-  const prevTransition = card.style.transition;
-  card.style.transition = 'none';
-  card.style.transform = 'none';
-  const to = logoOur.getBoundingClientRect();
-  card.style.transform = '';
-  card.offsetWidth; // commit before restoring the transition
-  card.style.transition = prevTransition;
-  const from = word.getBoundingClientRect();
-  const probe = document.createElement('span'); // sits on the typed word's baseline
-  probe.style.cssText = 'display:inline-block;width:0;height:0;vertical-align:baseline';
-  word.after(probe);
-  const baseline = probe.getBoundingClientRect().top;
-  probe.remove();
-
-  body.classList.add('is-flying', 'is-revealed');
-  intro.classList.add('is-leaving');
-
-  if (from.width && to.width) {
-    const s = to.width / from.width;
-    const dx = to.left - from.left;
-    const dy = to.bottom - (from.top + (baseline - from.top) * s);
-    const flight = word.animate(
-      [{ transform: 'none' }, { transform: `translate(${dx}px, ${dy}px) scale(${s})` }],
-      { duration: skipping ? 1 : 1300, easing: 'cubic-bezier(.65, 0, .35, 1)', fill: 'forwards' },
-    );
-    await flight.finished.catch(() => {});
-  }
-
-  body.classList.remove('is-flying'); // logo "Our" fades up under the travelling one
-  word.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 500, fill: 'forwards' });
-  await new Promise((r) => setTimeout(r, 520));
-  intro.classList.add('is-done');
+  // The card arrives behind the words, with the fields and button
+  body.classList.remove('is-printing');
+  body.classList.add('is-revealed');
   finish();
 }

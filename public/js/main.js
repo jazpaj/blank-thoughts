@@ -105,11 +105,13 @@ async function showSuccess({ position, duplicate, sms }) {
 
 initForm({ form: $('.form'), content, onSuccess: showSuccess });
 
-// Entrance, then the rotating lines
-const introDone = playIntro({ reduced });
-Promise.all([content, introDone]).then(([c]) => {
-  setTimeout(() => {
-    if (signup.hidden) return;
+// Entrance: the card's lines print out, then the card arrives behind them.
+// The rotating teaser begins as soon as "Coming Soon" has printed.
+let teaserStarted = false;
+const startTeaserOnce = () =>
+  content.then((c) => {
+    if (teaserStarted || signup.hidden) return;
+    teaserStarted = true;
     teaser = startTeaser({
       textEl: $('.teaser__text'),
       caretEl: $('.caret--teaser'),
@@ -118,5 +120,5 @@ Promise.all([content, introDone]).then(([c]) => {
       holdMs: c.teaserHoldMs,
       reduced,
     });
-  }, reduced ? 0 : 300);
-});
+  });
+playIntro({ reduced, onPrinted: startTeaserOnce });

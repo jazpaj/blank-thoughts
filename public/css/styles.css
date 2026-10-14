@@ -248,7 +248,7 @@ p { margin: 0; }
   left: 0;
   right: var(--fold);
   bottom: calc(var(--rule-inset) + 14px);
-  z-index: 2;
+  z-index: 3; /* above .card__body, which spans the whole card */
   margin: 0;
   padding-left: var(--fold); /* symmetric with the fold, so the line sits on the card's centre axis */
   text-align: center;

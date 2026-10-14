@@ -105,8 +105,8 @@ async function showSuccess({ position, duplicate, sms }) {
 
 initForm({ form: $('.form'), content, onSuccess: showSuccess });
 
-// Entrance: the card's lines print out, then the card arrives behind them.
-// The rotating teaser begins as soon as "Coming Soon" has printed.
+// Entrance: the city, then the card with all of its text. The rotating teaser
+// begins as the card arrives.
 let teaserStarted = false;
 const startTeaserOnce = () =>
   content.then((c) => {
@@ -121,4 +121,4 @@ const startTeaserOnce = () =>
       reduced,
     });
   });
-playIntro({ reduced, onPrinted: startTeaserOnce });
+playIntro({ reduced, onRevealed: startTeaserOnce });

@@ -4,6 +4,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { validateSignup } from './public/js/validate.js';
 import { SignupStore, toCsv } from './lib/store.js';
+import { toPublicContent } from './lib/content.js';
 import {
   klaviyoEnabled, syncToKlaviyo, turnstileEnabled, verifyTurnstile,
 } from './lib/integrations.js';
@@ -71,14 +72,8 @@ async function readContent() {
 }
 
 function publicContent(c) {
-  const strip = (obj) => Object.fromEntries(Object.entries(obj).filter(([k]) => !k.startsWith('_')));
   return {
-    teaserLines: c.teaserLines.map((l) => (typeof l === 'string' ? l : l.text)).filter(Boolean),
-    teaserHoldMs: c.teaserHoldMs,
-    revealImages: c.revealImages.map(strip),
-    video: c.video,
-    success: c.success,
-    instagram: c.instagram,
+    ...toPublicContent(c, PUBLIC),
     turnstileSiteKey: turnstileEnabled() ? process.env.TURNSTILE_SITE_KEY : null,
   };
 }

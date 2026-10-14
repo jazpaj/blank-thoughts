@@ -62,6 +62,8 @@ Add the licensed clips to `public/assets/video/` (or a CDN) and fill in:
 
 **Currently configured:** `bg.mp4`, a daytime aerial of the Manhattan skyline over the East River (1280×720, 22.5 s, H.264, no audio, 8.0 MB, fast-start), with `bg-poster.jpg` taken from its first frame. The same file serves desktop and mobile. At 8 MB it is above the brief's 5 MB target, so a lighter mobile cut (~2 MB) and a WebM are worth exporting from the editing software if mobile load time matters.
 
+To swap the video, just replace `public/assets/video/bg.mp4` (and `bg-poster.jpg`) and push: media URLs are fingerprinted with a hash of the file (`bg.mp4?v=1ff08099`), so visitors' browsers can't keep showing the old clip.
+
 The video is shown as-is, at full quality: never re-encoded, no zoom, no blur or colour overlay (removed at the client's request; this departs from the brief's "heavy blur + wine overlay"). The page only adds light film grain, parallax, and a soft dark fade at the bottom so the footer stays legible (`.scene__tint` in styles.css). Visitors with *reduce motion* switched on see only the poster. If no video is configured, an animated placeholder night scene (bokeh + taxi streaks) is drawn instead.
 
 ### Logo
@@ -109,7 +111,7 @@ These are needed from the client or need sign-off. The site runs without them, b
 ## Hosting
 
 - **Repo:** https://github.com/jazpaj/blank-thoughts (public, so GitHub Pages works on the free plan)
-- **GitHub Pages preview:** https://jazpaj.github.io/blank-thoughts/, redeployed automatically on every push to `main` (`.github/workflows/pages.yml` publishes `public/` plus `content/site.json` as `content.json`). Pages is static-only: everything works except signups. The form validates, then says "This is a preview. Signups open at launch."
+- **GitHub Pages preview:** https://jazpaj.github.io/blank-thoughts/, redeployed automatically on every push to `main` (`.github/workflows/pages.yml` runs `node scripts/build-static.js`, which publishes `public/` plus `content/site.json` as `content.json`). Pages is static-only: everything works except signups. The form validates, then says "This is a preview. Signups open at launch."
 - **Vercel preview (form works):** https://blank-thoughts.vercel.app, deployed with `vercel deploy --prod` from this folder (Vercel project `blank-thoughts`, team *jpajarin's projects*). Static files are served from `public/` by Vercel's CDN; `/api/*` runs `app.js` as a serverless function (`api/index.js`, `vercel.json`).
 - **The preview does not keep signups.** Serverless functions can only write to `/tmp`, which is wiped whenever an instance recycles, so waitlist numbers there restart from #0001 and records are lost. Use it to review the design and flow, not to collect real signups.
 - **For launch,** either run `npm start` on a host with a persistent disk (Render, Railway, Fly.io, a VPS; set `DATA_DIR` if needed), or keep Vercel and move the store to a database (e.g. Vercel KV / Postgres) by swapping `lib/store.js`. Connecting Klaviyo also gives a durable copy of every signup.

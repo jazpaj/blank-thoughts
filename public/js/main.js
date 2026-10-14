@@ -30,7 +30,8 @@ const FALLBACK = {
   signupsEnabled: true,
 };
 
-const getJson = (url) => fetch(url).then((r) => (r.ok ? r.json() : Promise.reject()));
+// no-cache: always revalidate, so copy and video changes show up on the next visit
+const getJson = (url) => fetch(url, { cache: 'no-cache' }).then((r) => (r.ok ? r.json() : Promise.reject()));
 
 // The server (local / Vercel) serves live copy and accepts signups. A static host
 // (GitHub Pages) has no server: it ships content/site.json as content.json and

@@ -60,7 +60,7 @@ Add the licensed clips to `public/assets/video/` (or a CDN) and fill in:
 }
 ```
 
-**Currently configured:** `bg.mp4`, a daytime aerial of the Manhattan skyline over the East River (1280×720, 22.5 s, H.264, no audio, 8.0 MB, fast-start), with `bg-poster.jpg` taken from its first frame. The same file serves desktop and mobile. At 8 MB it is above the brief's 5 MB target, so a lighter mobile cut (~2 MB) and a WebM are worth exporting from the editing software if mobile load time matters.
+**Currently configured:** `bg.mp4`, a daytime aerial of the Manhattan skyline over the East River (**2560×1440**, 22.5 s, H.264 High, no audio, 38 MB, fast-start), served untouched. `bg-poster.jpg` is its first frame at 1920×1080 (~0.7 MB) and shows instantly while the video loads. Phones get the same file: the macOS encoder's presets made a 720p copy that was still 21 MB and visibly softer, so it wasn't worth it. If mobile data matters, export a ~1080p, ~8–10 Mbps copy from the editing software and set it as `video.mobile.mp4` in `content/site.json`.
 
 To swap the video, just replace `public/assets/video/bg.mp4` (and `bg-poster.jpg`) and push: media URLs are fingerprinted with a hash of the file (`bg.mp4?v=1ff08099`), so visitors' browsers can't keep showing the old clip.
 

@@ -44,7 +44,7 @@ export async function playIntro({ reduced }) {
 
   // Wait for the script face so nothing is typed in a fallback font
   await Promise.race([
-    Promise.all([document.fonts.load('1em "Pinyon Script"'), document.fonts.load('500 1em "Bodoni Moda"')]),
+    Promise.all([document.fonts.load('1em "Pinyon Script"'), document.fonts.load('500 1em "Bodoni Moda"'), document.fonts.load('500 1em Inter')]),
     new Promise((r) => setTimeout(r, 1500)),
   ]).catch(() => {});
 

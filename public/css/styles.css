@@ -22,6 +22,7 @@
   --f-script: 'Pinyon Script', 'Snell Roundhand', cursive;
   /* Bodoni Moda: the high-contrast didone of fashion mastheads and garment labels */
   --f-serif: 'Bodoni Moda', 'Didot', 'Bodoni 72', 'Times New Roman', serif;
+  --f-logo: 'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif; /* logo BLANK THOUGHTS */
 
   --ease-out: cubic-bezier(.16, 1, .3, 1);
   --ease-silk: cubic-bezier(.65, 0, .35, 1);
@@ -331,7 +332,8 @@ p { margin: 0; }
 .logo__art img,
 .logo__caps {
   position: absolute;
-  inset: 0;
+  top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
   user-select: none;
@@ -340,21 +342,19 @@ p { margin: 0; }
 .logo__caps {
   overflow: visible;
   fill: var(--ivory);
-  font-family: var(--f-serif);
-  font-size: 104px;
-  font-weight: 700;
-  /* The lockup renders ~30-40px tall on the card; the text-size cut keeps the hairlines visible there */
-  font-variation-settings: "opsz" 28;
+  font-family: var(--f-logo);
+  font-size: 106px;
+  font-weight: 500;
   letter-spacing: 1px;
 }
 /* The letters of the script "Our" in the artwork (swash excluded); bottom edge = baseline.
-   The intro flight lands the typed "Our" here. Measured from the 735x219 artwork. */
+   The intro flight lands the typed "Our" here. Measured from the artwork, in lockup units. */
 .logo__our-target {
   position: absolute;
-  left: 1.9%;
-  top: 2.7%;
-  width: 27.9%;
-  height: 47%;
+  left: calc(14 / 735 * 100%);
+  top: calc(6 / 219 * 100%);
+  width: calc(205 / 735 * 100%);
+  height: calc(103 / 219 * 100%);
 }
 /* The typed "Our" lands here; until then, keep the logo's own "Our" hidden */
 .logo__our { transition: opacity .6s ease; }
@@ -752,7 +752,7 @@ p { margin: 0; }
 }
 
 /* Short desktop windows (most laptops): tighten vertical rhythm so it stays one screen */
-@media (min-width: 521px) and (max-height: 960px) {
+@media (min-width: 521px) and (max-height: 980px) {
   :root { --card-pad-y: 32px; --rule-inset: 16px; --fold: 84px; }
   .stage { padding-top: 18px; padding-bottom: 30px; }
   .logo__art { width: min(262px, 100%); }

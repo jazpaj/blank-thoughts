@@ -67,7 +67,7 @@ To swap the video, just replace `public/assets/video/bg.mp4` (and `bg-poster.jpg
 The video is shown as-is, at full quality: never re-encoded, no zoom, no blur or colour overlay (removed at the client's request; this departs from the brief's "heavy blur + wine overlay"). The page only adds light film grain, parallax, and a soft dark fade at the bottom so the footer stays legible (`.scene__tint` in styles.css). Visitors with *reduce motion* switched on see only the poster. If no video is configured, an animated placeholder night scene (bokeh + taxi streaks) is drawn instead.
 
 ### Logo
-The lockup keeps the official script **"Our"** (extracted from the Instagram logo image, `brand-source/logo-instagram-1080.jpg`, as a white-on-transparent layer in `public/assets/logo/logo-our.png`). At the client's request, **BLANK / THOUGHTS** is set in **Bodoni Moda Bold** (live SVG text in `index.html`, styled by `.logo__caps`) instead of the original sans-serif capitals, in the same positions on the same 735×219 artboard so the intro still lands the typed "Our" on the script. Note this now differs from the Instagram logo, which still uses the sans capitals; update the brand files to match, or tell the developer to switch back. When a vector logo arrives, replace `logo-our.png` with its "Our" layer (same artboard).
+The lockup keeps the official script **"Our"** (extracted from the Instagram logo image, `brand-source/logo-instagram-1080.jpg`, as a white-on-transparent layer in `public/assets/logo/logo-our.png`). At the client's request, **BLANK / THOUGHTS** is set in **Inter Medium** (live SVG text in `index.html`, styled by `.logo__caps`; a free match for the clean grotesque in the client's reference) instead of the original capitals, in the same positions on the same 735×219 artboard so the intro still lands the typed "Our" on the script. Note this now differs from the Instagram logo, which still uses its original capitals; update the brand files to match, or tell the developer to switch back. When a vector logo arrives, replace `logo-our.png` with its "Our" layer (same artboard).
 
 ---
 
@@ -91,7 +91,7 @@ These are needed from the client or need sign-off. The site runs without them, b
 
 - [ ] **Background video licence**: confirm `bg.mp4` is cleared for commercial web use (optional: lighter mobile cut + WebM)
 - [ ] **1–2 close-up teaser photos** for the hidden reveal
-- [ ] **Vector logo SVG** for the script "Our" (current one is a high-res extraction from the Instagram image), and a decision on whether the Instagram logo moves to the Bodoni capitals too
+- [ ] **Vector logo SVG** for the script "Our" (current one is a high-res extraction from the Instagram image), and a decision on whether the Instagram logo moves to the Inter capitals too (or the licensed premium grotesque the reference used, if the client knows it)
 - [ ] **Exact brand hex codes** (wine is currently `#7E0227`, sampled from the logo image; the brief's approximation was `#7D0029`)
 - [ ] **Privacy Policy and SMS Terms text** (`public/privacy.html`, `public/sms-terms.html` are placeholders)
 - [ ] **Legal review** of the SMS consent wording (TCPA)
@@ -101,7 +101,7 @@ These are needed from the client or need sign-off. The site runs without them, b
 
 ## Notes and assumptions
 
-- **Fonts** load from Google Fonts: **Bodoni Moda**, the high-contrast didone of fashion mastheads, for all text and caps (chosen at the client's request for a clothing-brand feel; replaces the brief's Barlow / Cormorant suggestions), and Pinyon Script for the "Coming Soon" accent. The logo itself is artwork, so its lettering is unchanged.
+- **Fonts** load from Google Fonts: **Bodoni Moda**, the high-contrast didone of fashion mastheads, for all text and caps except the logo capitals, which use Inter (chosen at the client's request for a clothing-brand feel; replaces the brief's Barlow / Cormorant suggestions), and Pinyon Script for the "Coming Soon" accent. The logo itself is artwork, so its lettering is unchanged.
 - **Tactile detail:** the card's bottom-right corner is folded back (the brief's "folded page corner" option; the earlier "NY" wax seal was removed at the client's request). The inset hairline stops at the fold and the flap carries its own; `js/frame.js` draws the line, and the fold size is the `--fold` CSS variable.
 - **Success line:** "We'll text you before anyone else." is shown when the person gave a number and SMS consent; email-only signups see "We'll write to you before anyone else."
 - **Intro** plays once per browser session; a click or keypress skips it. Reduced-motion users get no typing, no parallax and a still background.

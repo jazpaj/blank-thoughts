@@ -27,6 +27,8 @@
   --ease-silk: cubic-bezier(.65, 0, .35, 1);
 
   --card-w: 456px;
+  --radius: 24px;       /* card */
+  --radius-ui: 12px;    /* fields, button */
   --card-pad-x: 48px;
   --card-pad-y: 48px;
   --rule-inset: 12px;
@@ -208,11 +210,10 @@ p { margin: 0; }
 
 .card {
   position: relative;
-  border-radius: 3px;
+  border-radius: var(--radius);
   box-shadow:
-    0 60px 120px -40px rgba(0, 0, 0, .9),
-    0 24px 48px -24px rgba(0, 0, 0, .7),
-    0 0 0 1px rgba(0, 0, 0, .25);
+    0 50px 100px -30px rgba(20, 0, 8, .75),
+    0 18px 40px -18px rgba(0, 0, 0, .55);
   opacity: 0;
   transform: translateY(32px) scale(.985);
   transition:
@@ -221,55 +222,44 @@ p { margin: 0; }
 }
 .is-revealed .card { opacity: 1; transform: none; }
 
+/* Frosted wine glass: the city stays visible, softly, through the card */
 .card__surface {
   position: absolute;
   inset: 0;
   overflow: hidden;
   border-radius: inherit;
-  background: var(--wine);
+  background: linear-gradient(160deg, rgba(150, 12, 58, .78) 0%, rgba(126, 2, 39, .82) 45%, rgba(94, 0, 31, .9) 100%);
+  -webkit-backdrop-filter: blur(22px) saturate(1.35);
+  backdrop-filter: blur(22px) saturate(1.35);
   isolation: isolate;
 }
-
-/* Hidden "blank" reveal: a close-up detail under a faint wine veil */
-.card__reveal {
-  position: absolute;
-  inset: -12px;
-  background-image: var(--reveal-src, none);
-  background-size: var(--reveal-zoom, 220%);
-  background-position: var(--reveal-focus, 50% 50%);
-  background-repeat: no-repeat;
-  filter: blur(2.6px) grayscale(1) contrast(1.15);
-  mix-blend-mode: luminosity;
-  opacity: .62;
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .card__surface { background: var(--wine); }
 }
 
+/* Hidden "blank" reveal: wiping the card paints a blurred close-up detail */
 .card__veil {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
+  filter: blur(2.6px) grayscale(1) contrast(1.15);
+  mix-blend-mode: luminosity;
+  opacity: .62;
 }
 
-/* Stationery: soft light falloff + paper tooth */
+/* Glass edge: a bright top rim and a faint 1px border catch the light */
 .card__paper {
   position: absolute;
   inset: 0;
+  border-radius: inherit;
   background:
-    radial-gradient(130% 70% at 50% -10%, rgba(255, 255, 255, .085), transparent 60%),
-    radial-gradient(120% 90% at 50% 115%, rgba(20, 0, 6, .38), transparent 62%);
+    radial-gradient(120% 60% at 50% -12%, rgba(255, 255, 255, .14), transparent 55%),
+    radial-gradient(100% 70% at 50% 115%, rgba(30, 0, 10, .35), transparent 60%);
   box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, .07),
-    inset 0 0 70px rgba(30, 0, 10, .35);
+    inset 0 1px 0 rgba(255, 255, 255, .28),
+    inset 0 0 0 1px rgba(255, 255, 255, .12);
   pointer-events: none;
-}
-.card__paper::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background-image: var(--noise);
-  background-size: 180px;
-  mix-blend-mode: soft-light;
-  opacity: .5;
 }
 
 /* Thin inset hairline that draws itself */
@@ -286,7 +276,7 @@ p { margin: 0; }
   width: calc(100% - 1px);
   height: calc(100% - 1px);
   fill: none;
-  stroke: var(--hairline);
+  stroke: rgba(255, 255, 255, .34);
   stroke-width: 1;
   stroke-dasharray: 1;
   stroke-dashoffset: 1;
@@ -405,14 +395,14 @@ p { margin: 0; }
   width: 100%;
   height: 48px;
   padding: 0 16px;
-  border: 1px solid var(--line-soft);
-  border-radius: 0;
-  background: rgba(94, 0, 31, .62);
+  border: 1px solid rgba(255, 255, 255, .2);
+  border-radius: var(--radius-ui);
+  background: rgba(255, 255, 255, .06);
   color: var(--ivory);
   font-family: var(--f-serif);
   font-size: 17px;
   font-weight: 500;
-  letter-spacing: .08em;
+  letter-spacing: .06em;
   text-align: center;
   appearance: none;
   outline: none;
@@ -420,15 +410,15 @@ p { margin: 0; }
 }
 .field input::placeholder {
   color: var(--blush-65);
-  letter-spacing: .16em;
+  letter-spacing: .1em;
   opacity: 1;
   transition: opacity .3s ease;
 }
-.field input:hover { border-color: rgba(255, 255, 255, .55); }
+.field input:hover { border-color: rgba(255, 255, 255, .38); background: rgba(255, 255, 255, .08); }
 .field input:focus {
-  border-color: var(--ivory);
-  background: var(--wine-dark);
-  box-shadow: 0 0 0 3px rgba(246, 236, 238, .09);
+  border-color: rgba(255, 255, 255, .75);
+  background: rgba(255, 255, 255, .1);
+  box-shadow: 0 0 0 4px rgba(246, 236, 238, .12);
 }
 .field input:focus::placeholder { opacity: .45; }
 .field input[aria-invalid="true"] { border-color: var(--error); }
@@ -476,7 +466,7 @@ p { margin: 0; }
   height: 17px;
   margin: 2px 0 0;
   border: 1px solid rgba(255, 255, 255, .7);
-  border-radius: 0;
+  border-radius: 5px;
   background: transparent center / 11px no-repeat;
   appearance: none;
   cursor: pointer;
@@ -532,9 +522,10 @@ p { margin: 0; }
   margin-top: 18px;
   padding: 0;
   border: 1px solid var(--blush);
-  border-radius: 0;
+  border-radius: var(--radius-ui);
   background: var(--blush);
   color: var(--wine);
+  box-shadow: 0 10px 24px -12px rgba(20, 0, 8, .6);
   font-family: var(--f-sans);
   font-size: 12.5px;
   font-weight: 600;
@@ -652,8 +643,10 @@ p { margin: 0; }
   display: inline-flex;
   align-items: center;
   gap: 11px;
-  padding: 12px 18px;
-  border: 1px solid var(--line-soft);
+  padding: 12px 20px;
+  border: 1px solid rgba(255, 255, 255, .24);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, .05);
   text-decoration: none;
   color: var(--blush);
   transition: background-color .4s ease, border-color .4s ease, color .4s ease;

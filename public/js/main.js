@@ -56,7 +56,7 @@ initParallax({ sceneEl: $('[data-parallax="scene"]'), cardEl: $('[data-parallax=
 
 // Hidden reveal
 content.then((c) =>
-  initVeil({ card: $('.card'), canvas: $('.card__veil'), layer: $('.card__reveal'), images: c.revealImages }),
+  initVeil({ card: $('.card'), canvas: $('.card__veil'), images: c.revealImages }),
 );
 
 // Form + success

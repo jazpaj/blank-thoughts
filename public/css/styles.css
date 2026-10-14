@@ -708,6 +708,12 @@ p { margin: 0; }
 
 /* ---------- Responsive ---------------------------------------------------- */
 
+/* The serif footer is wide: stack it before it can wrap unevenly */
+@media (max-width: 720px) {
+  .footer__row { flex-direction: column; gap: 10px; }
+  .footer__dot { display: none; }
+}
+
 @media (max-width: 520px) {
   :root {
     --card-pad-x: 30px;
@@ -725,8 +731,6 @@ p { margin: 0; }
   .field + .field { margin-top: 10px; }
   .button { height: 50px; margin-top: 18px; }
   .success__title { font-size: 26px; }
-  .footer__row { flex-direction: column; gap: 10px; }
-  .footer__dot { display: none; }
 }
 
 @media (max-width: 360px) {

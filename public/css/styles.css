@@ -20,19 +20,17 @@
   --error: #FFC9D6;
 
   --f-script: 'Pinyon Script', 'Snell Roundhand', cursive;
-  --f-sans: 'Barlow', 'Helvetica Neue', Arial, sans-serif;
-  --f-serif: 'Cormorant Garamond', 'EB Garamond', Garamond, 'Times New Roman', serif;
+  /* Bodoni Moda: the high-contrast didone of fashion mastheads and garment labels */
+  --f-serif: 'Bodoni Moda', 'Didot', 'Bodoni 72', 'Times New Roman', serif;
 
   --ease-out: cubic-bezier(.16, 1, .3, 1);
   --ease-silk: cubic-bezier(.65, 0, .35, 1);
 
   --card-w: 548px;
-  --radius: 24px;       /* card */
-  --radius-ui: 14px;    /* fields */
-  --radius-btn: 16px;   /* button */
-  --card-pad-x: 62px;
+  --fold: 104px;        /* folded bottom-right corner */
+  --card-pad-x: 72px;
   --card-pad-y: 48px;
-  --rule-inset: 12px;
+  --rule-inset: 20px;
 
   --noise: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/><feColorMatrix type='saturate' values='0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
 }
@@ -211,11 +209,10 @@ p { margin: 0; }
 
 .card {
   position: relative;
-  border-radius: var(--radius);
-  box-shadow:
-    0 50px 90px -30px rgba(10, 0, 4, .8),
-    0 20px 40px -16px rgba(0, 0, 0, .55),
-    0 0 0 1px rgba(40, 0, 12, .55);
+  /* Shadow follows the cut corner, unlike box-shadow */
+  filter:
+    drop-shadow(0 34px 44px rgba(0, 0, 0, .5))
+    drop-shadow(0 8px 14px rgba(0, 0, 0, .35));
   opacity: 0;
   transform: translateY(32px) scale(.985);
   transition:
@@ -224,24 +221,14 @@ p { margin: 0; }
 }
 .is-revealed .card { opacity: 1; transform: none; }
 
-/* Wine satin: lit from the top-left, deepening toward the bottom-right */
+/* Flat wine page with the bottom-right corner cut away where it folds back */
 .card__surface {
   position: absolute;
   inset: 0;
   overflow: hidden;
-  border-radius: inherit;
-  background:
-    radial-gradient(120% 90% at 50% 45%, transparent 55%, rgba(25, 0, 8, .35) 100%),
-    linear-gradient(150deg, var(--wine) 0%, #6C0321 40%, #560419 75%, #43020F 100%);
+  background: var(--wine);
+  clip-path: polygon(0 0, 100% 0, 100% calc(100% - var(--fold)), calc(100% - var(--fold)) 100%, 0 100%);
   isolation: isolate;
-}
-
-.card__satin {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
 }
 
 /* Hidden "blank" reveal: wiping the card paints a blurred close-up detail */
@@ -255,52 +242,61 @@ p { margin: 0; }
   opacity: .62;
 }
 
-/* Edge: a lit top rim, a faint border and soft inner shading */
+/* The faintest paper tooth, so the flat colour still feels printed */
 .card__paper {
   position: absolute;
   inset: 0;
-  border-radius: inherit;
-  background:
-    radial-gradient(120% 60% at 50% -12%, rgba(255, 255, 255, .14), transparent 55%),
-    radial-gradient(100% 70% at 50% 115%, rgba(30, 0, 10, .35), transparent 60%);
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, .22),
-    inset 0 0 0 1px rgba(255, 255, 255, .08),
-    inset 0 0 60px rgba(30, 0, 10, .3);
-  pointer-events: none;
-}
-/* Fine satin grain */
-.card__paper::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
   background-image: var(--noise);
   background-size: 160px;
   mix-blend-mode: soft-light;
-  opacity: .4;
+  opacity: .22;
+  pointer-events: none;
 }
+
+/* Folded corner: the turned-back flap, a shade deeper, with its own hairline */
+.card__fold {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  z-index: 2;
+  width: var(--fold);
+  height: var(--fold);
+  pointer-events: none;
+}
+.card__fold svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  filter: drop-shadow(-3px -3px 6px rgba(30, 0, 10, .25));
+}
+.card__fold-flap { fill: var(--wine-dark); }
+.card__fold-rule {
+  fill: none;
+  stroke: var(--hairline);
+  stroke-width: 1;
+  opacity: 0;
+}
+.is-revealed .card__fold-rule { opacity: 1; transition: opacity .8s ease 2s; }
 
 /* Thin inset hairline that draws itself */
 .card__rule {
   position: absolute;
-  inset: var(--rule-inset);
-  width: calc(100% - var(--rule-inset) * 2);
-  height: calc(100% - var(--rule-inset) * 2);
+  inset: 0;
+  width: 100%;
+  height: 100%;
   overflow: visible;
   pointer-events: none;
   z-index: 1;
 }
-.card__rule rect {
-  width: calc(100% - 1px);
-  height: calc(100% - 1px);
+.card__rule path {
   fill: none;
-  stroke: rgba(255, 228, 234, .4);
+  stroke: var(--hairline);
   stroke-width: 1;
   stroke-dasharray: 1;
   stroke-dashoffset: 1;
 }
-.is-revealed .card__rule rect {
+.is-revealed .card__rule path {
   stroke-dashoffset: 0;
   transition: stroke-dashoffset 1.9s var(--ease-silk) .35s;
 }
@@ -308,7 +304,7 @@ p { margin: 0; }
 .card__body {
   position: relative;
   z-index: 2;
-  padding: var(--card-pad-y) var(--card-pad-x) calc(var(--card-pad-y) + 2px);
+  padding: var(--card-pad-y) var(--card-pad-x) calc(var(--fold) + 22px); /* keep content clear of the fold */
   text-align: center;
 }
 
@@ -354,16 +350,16 @@ p { margin: 0; }
 .is-flying .logo__our { opacity: 0; transition: none; }
 
 .origin {
-  margin-top: 16px;
-  font-family: var(--f-sans);
-  font-weight: 500;
-  font-size: 10px;
+  margin-top: 14px;
+  font-family: var(--f-serif);
+  font-weight: 600;
+  font-size: 12px;
   line-height: 1.6;
-  letter-spacing: .34em;
+  letter-spacing: .1em;
   text-transform: uppercase;
-  color: var(--blush-80);
+  color: var(--ivory);
   /* letter-spacing adds trailing space: pull it back so the line is optically centred */
-  margin-right: -.34em;
+  margin-right: -.1em;
 }
 
 .card__head::after {
@@ -396,8 +392,8 @@ p { margin: 0; }
   justify-content: center;
   font-family: var(--f-serif);
   font-style: italic;
-  font-size: 18.5px;
-  line-height: 1.4;
+  font-size: 17px;
+  line-height: 1.5;
   color: var(--blush);
 }
 .teaser__line { display: block; }
@@ -409,56 +405,34 @@ p { margin: 0; }
 
 .field + .field { margin-top: 12px; }
 
-.field__control { position: relative; }
-
-.field__icon {
-  position: absolute;
-  left: 17px;
-  top: 50%;
-  width: 19px;
-  height: 19px;
-  transform: translateY(-50%);
-  fill: none;
-  stroke: var(--blush);
-  stroke-opacity: .72;
-  stroke-width: 1.3;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-  pointer-events: none;
-  transition: stroke-opacity .3s ease;
-}
-.field__control:focus-within .field__icon { stroke-opacity: 1; }
-
 .field input {
   display: block;
   width: 100%;
-  height: 52px;
-  padding: 0 18px 0 50px;
-  border: 1px solid rgba(255, 228, 234, .24);
-  border-radius: var(--radius-ui);
-  background: rgba(255, 255, 255, .07);
-  box-shadow: inset 0 1px 2px rgba(30, 0, 10, .25);
+  height: 50px;
+  padding: 0 20px;
+  border: 1px solid rgba(246, 236, 238, .55);
+  border-radius: 0;
+  background: rgba(60, 0, 18, .18);
   color: var(--ivory);
   font-family: var(--f-serif);
-  font-size: 18px;
-  font-weight: 500;
-  letter-spacing: .02em;
+  font-size: 16px;
+  font-weight: 400;
+  letter-spacing: .08em;
   text-align: left;
   appearance: none;
   outline: none;
-  transition: border-color .35s ease, background-color .35s ease, box-shadow .35s ease;
+  transition: border-color .35s ease, background-color .35s ease;
 }
 .field input::placeholder {
-  color: var(--blush-80);
-  letter-spacing: .02em;
+  color: rgba(246, 236, 238, .62);
+  letter-spacing: .08em;
   opacity: 1;
   transition: opacity .3s ease;
 }
-.field input:hover { border-color: rgba(255, 255, 255, .38); background: rgba(255, 255, 255, .08); }
+.field input:hover { border-color: rgba(246, 236, 238, .8); }
 .field input:focus {
-  border-color: rgba(255, 255, 255, .7);
-  background: rgba(255, 255, 255, .1);
-  box-shadow: inset 0 1px 2px rgba(30, 0, 10, .25), 0 0 0 4px rgba(246, 236, 238, .1);
+  border-color: var(--ivory);
+  background: rgba(60, 0, 18, .3);
 }
 .field input:focus::placeholder { opacity: .45; }
 .field input[aria-invalid="true"] { border-color: var(--error); }
@@ -508,7 +482,7 @@ p { margin: 0; }
   height: 17px;
   margin: 2px 0 0;
   border: 1px solid rgba(255, 255, 255, .7);
-  border-radius: 5px;
+  border-radius: 0;
   background: transparent center / 11px no-repeat;
   appearance: none;
   cursor: pointer;
@@ -533,10 +507,10 @@ p { margin: 0; }
   margin-top: 6px;
   padding-left: 29px;
   text-align: left;
-  font-family: var(--f-sans);
-  font-size: 9.5px;
+  font-family: var(--f-serif);
+  font-size: 10px;
   font-weight: 500;
-  letter-spacing: .22em;
+  letter-spacing: .14em;
   text-transform: uppercase;
   color: var(--blush-65);
 }
@@ -561,23 +535,22 @@ p { margin: 0; }
   display: block;
   width: 100%;
   height: 54px;
-  margin-top: 14px;
+  margin-top: 22px;
   padding: 0;
   border: 1px solid var(--blush);
-  border-radius: var(--radius-btn);
+  border-radius: 0;
   background: var(--blush);
   color: var(--wine);
-  box-shadow: 0 10px 24px -12px rgba(20, 0, 8, .6);
-  font-family: var(--f-sans);
-  font-size: 12.5px;
-  font-weight: 600;
-  letter-spacing: .34em;
+  font-family: var(--f-serif);
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: .24em;
   text-transform: uppercase;
   cursor: pointer;
   overflow: hidden;
   transition: background-color .4s ease, color .4s ease, border-color .4s ease, transform .2s ease;
 }
-.button__label { display: inline-block; margin-right: -.34em; }
+.button__label { display: inline-block; margin-right: -.24em; }
 .button:hover { background: var(--wine-dark); color: var(--blush); }
 .button:active { transform: translateY(1px); }
 .button:focus-visible { outline-offset: 3px; }
@@ -664,16 +637,16 @@ p { margin: 0; }
 .success__num {
   margin-top: 6px;
   margin-right: -.08em;
-  font-family: var(--f-sans);
-  font-weight: 700;
-  font-size: 44px;
-  letter-spacing: .08em;
+  font-family: var(--f-serif);
+  font-weight: 500;
+  font-size: 46px;
+  letter-spacing: .04em;
   font-variant-numeric: lining-nums tabular-nums;
 }
 .success__caption {
   margin-top: 12px;
   margin-right: -.32em;
-  font-family: var(--f-sans);
+  font-family: var(--f-serif);
   font-size: 9.5px;
   font-weight: 500;
   letter-spacing: .32em;
@@ -686,9 +659,7 @@ p { margin: 0; }
   align-items: center;
   gap: 11px;
   padding: 12px 20px;
-  border: 1px solid rgba(255, 255, 255, .24);
-  border-radius: 999px;
-  background: rgba(255, 255, 255, .05);
+  border: 1px solid rgba(246, 236, 238, .55);
   text-decoration: none;
   color: var(--blush);
   transition: background-color .4s ease, border-color .4s ease, color .4s ease;
@@ -696,7 +667,7 @@ p { margin: 0; }
 .success__ig:hover { background: var(--wine-dark); border-color: var(--blush); color: var(--ivory); }
 .success__ig .icon { width: 17px; height: 17px; flex: none; }
 .success__cta {
-  font-family: var(--f-sans);
+  font-family: var(--f-serif);
   font-size: 10.5px;
   font-weight: 600;
   letter-spacing: .26em;
@@ -711,7 +682,7 @@ p { margin: 0; }
   z-index: 2;
   padding: 0 16px max(22px, env(safe-area-inset-bottom));
   text-align: center;
-  font-family: var(--f-sans);
+  font-family: var(--f-serif);
   font-size: 9.5px;
   font-weight: 500;
   letter-spacing: .26em;
@@ -739,53 +710,65 @@ p { margin: 0; }
 
 @media (max-width: 520px) {
   :root {
-    --card-pad-x: 26px;
-    --card-pad-y: 38px;
-    --rule-inset: 9px;
+    --card-pad-x: 30px;
+    --card-pad-y: 40px;
+    --rule-inset: 14px;
+    --fold: 76px;
   }
   .stage { padding-top: max(20px, env(safe-area-inset-top)); padding-bottom: 44px; }
   .logo__art { width: min(256px, 100%); }
-  .origin { font-size: 8.5px; letter-spacing: .26em; margin-right: -.26em; margin-top: 12px; }
+  .origin { font-size: 10.5px; letter-spacing: .06em; margin-right: -.06em; margin-top: 12px; }
   .card__head::after { margin-top: 18px; }
   .status { font-size: 40px; margin-top: 14px; }
-  .teaser { font-size: 17px; margin-bottom: 18px; }
-  .field input { height: 48px; font-size: 16.5px; padding-left: 46px; } /* 16px+ avoids iOS zoom-on-focus */
-  .field__icon { left: 15px; width: 18px; height: 18px; }
+  .teaser { font-size: 16px; margin-bottom: 18px; }
+  .field input { height: 48px; padding: 0 16px; } /* 16px font avoids iOS zoom-on-focus */
   .field + .field { margin-top: 10px; }
-  .button { height: 50px; margin-top: 16px; }
+  .button { height: 50px; margin-top: 18px; }
   .success__title { font-size: 26px; }
   .footer__row { flex-direction: column; gap: 10px; }
   .footer__dot { display: none; }
 }
 
 @media (max-width: 360px) {
-  :root { --card-pad-x: 20px; }
-  .origin { font-size: 8px; letter-spacing: .16em; margin-right: -.16em; }
-  .button { letter-spacing: .24em; }
-  .button__label { margin-right: -.24em; }
+  :root { --card-pad-x: 24px; }
+  .origin { font-size: 9.5px; letter-spacing: .03em; margin-right: -.03em; }
+  .button { letter-spacing: .16em; }
+  .button__label { margin-right: -.16em; }
 }
 
 /* Short desktop windows (most laptops): tighten vertical rhythm so it stays one screen */
-@media (min-width: 521px) and (max-height: 820px) {
-  :root { --card-pad-y: 30px; --rule-inset: 10px; }
-  .stage { padding-top: 18px; padding-bottom: 34px; }
+@media (min-width: 521px) and (max-height: 960px) {
+  :root { --card-pad-y: 32px; --rule-inset: 16px; --fold: 84px; }
+  .stage { padding-top: 18px; padding-bottom: 30px; }
   .logo__art { width: min(262px, 100%); }
   .origin { margin-top: 10px; }
   .card__head::after { margin-top: 14px; }
   .status { margin-top: 10px; font-size: 38px; }
-  .teaser { margin: 2px auto 12px; font-size: 17.5px; }
+  .teaser { margin: 2px auto 12px; }
   .field input { height: 46px; }
   .field + .field { margin-top: 9px; }
   .consent__row { padding-top: 10px; }
-  .consent__text { font-size: 12.5px; line-height: 1.42; }
-  .button { height: 46px; margin-top: 13px; }
+  .consent__text { font-size: 12px; line-height: 1.45; }
+  .button { height: 48px; margin-top: 16px; }
   .success__place { margin: 22px auto 20px; }
   .footer { padding-bottom: 14px; }
 }
 
 /* Very short windows: trim the outer spacing */
 @media (min-width: 521px) and (max-height: 700px) {
-  .stage { padding-top: 10px; padding-bottom: 24px; }
+  :root { --card-pad-y: 24px; --rule-inset: 13px; --fold: 60px; }
+  .stage { padding-top: 10px; padding-bottom: 20px; }
+  .logo__art { width: min(228px, 100%); }
+  .origin { font-size: 11px; margin-top: 8px; }
+  .card__head::after { margin-top: 10px; }
+  .status { margin-top: 6px; font-size: 34px; }
+  .teaser { min-height: 2.6em; margin: 0 auto 10px; font-size: 16px; line-height: 1.3; }
+  .field input { height: 42px; }
+  .field + .field { margin-top: 8px; }
+  .consent__row { padding-top: 8px; }
+  .consent__text { font-size: 11.5px; line-height: 1.4; }
+  .button { height: 44px; margin-top: 12px; }
+  .footer { padding-bottom: 10px; }
 }
 
 @media (prefers-reduced-motion: reduce) {

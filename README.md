@@ -60,7 +60,7 @@ Add the licensed clips to `public/assets/video/` (or a CDN) and fill in:
 }
 ```
 
-**Currently configured:** `bg.mp4`, a daytime aerial of the Manhattan skyline over the East River (**2560×1440**, 22.5 s, H.264 High, no audio, 38 MB, fast-start), served untouched. `bg-poster.jpg` is its first frame at 1920×1080 (~0.7 MB) and shows instantly while the video loads. Phones get the same file: the macOS encoder's presets made a 720p copy that was still 21 MB and visibly softer, so it wasn't worth it. If mobile data matters, export a ~1080p, ~8–10 Mbps copy from the editing software and set it as `video.mobile.mp4` in `content/site.json`.
+**Currently configured:** `bg.mp4`, a night aerial over the Brooklyn Bridge toward Lower Manhattan (**2560×1440**, 15 s, H.264, no audio, 21.8 MB, fast-start), served untouched. `bg-poster.jpg` is its first frame at 1920×1080 (~0.7 MB) and shows instantly while the video loads. Phones get the same file: the macOS encoder's presets can't make a meaningfully lighter copy without visible softening. If mobile data matters, export a ~1080p, ~8–10 Mbps copy from the editing software and set it as `video.mobile.mp4` in `content/site.json`.
 
 To swap the video, just replace `public/assets/video/bg.mp4` (and `bg-poster.jpg`) and push: media URLs are fingerprinted with a hash of the file (`bg.mp4?v=1ff08099`), so visitors' browsers can't keep showing the old clip.
 
@@ -97,12 +97,12 @@ These are needed from the client or need sign-off. The site runs without them, b
 - [ ] **Legal review** of the SMS consent wording (TCPA)
 - [ ] **Klaviyo access**: list ID, private key, welcome email + SMS flow, then one end-to-end test signup
 - [ ] **Turnstile keys** (Cloudflare) to enable the invisible bot check
-- [ ] **Approval** of font matches (Pinyon Script / Barlow / Cormorant Garamond), teaser lines, success copy and welcome-text wording
+- [ ] **Approval** of fonts (Bodoni Moda + Pinyon Script), teaser lines, success copy and welcome-text wording
 
 ## Notes and assumptions
 
-- **Fonts** load from Google Fonts: Pinyon Script (script accents), Barlow (caps), Cormorant Garamond (body/form). Script is used for at most two words per screen.
-- **Tactile detail:** the "NY" wax seal was removed at the client's request; the stationery card (inset hairline, paper grain) and the hidden reveal carry the tactile feel.
+- **Fonts** load from Google Fonts: **Bodoni Moda**, the high-contrast didone of fashion mastheads, for all text and caps (chosen at the client's request for a clothing-brand feel; replaces the brief's Barlow / Cormorant suggestions), and Pinyon Script for the "Coming Soon" accent. The logo itself is artwork, so its lettering is unchanged.
+- **Tactile detail:** the card's bottom-right corner is folded back (the brief's "folded page corner" option; the earlier "NY" wax seal was removed at the client's request). The inset hairline stops at the fold and the flap carries its own; `js/frame.js` draws the line, and the fold size is the `--fold` CSS variable.
 - **Success line:** "We'll text you before anyone else." is shown when the person gave a number and SMS consent; email-only signups see "We'll write to you before anyone else."
 - **Intro** plays once per browser session; a click or keypress skips it. Reduced-motion users get no typing, no parallax and a still background.
 - **Phone-tilt parallax** works on Android. iOS requires a permission prompt for motion data, which would break the mood, so iPhones get the static float.

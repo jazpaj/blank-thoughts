@@ -3,6 +3,7 @@ import { initScene, initParallax } from './scene.js';
 import { initVeil } from './veil.js';
 import { startTeaser } from './teaser.js';
 import { initForm } from './form.js';
+import { initFrame } from './frame.js';
 
 const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
 const $ = (sel) => document.querySelector(sel);
@@ -48,6 +49,8 @@ const content = getJson('api/content')
   )
   .then((c) => ({ ...FALLBACK, ...c, success: { ...FALLBACK.success, ...c.success } }))
   .catch(() => FALLBACK);
+
+initFrame($('.card'));
 
 // Background
 const scene = initScene({ canvas: $('.scene__canvas'), video: $('.scene__video'), reduced });

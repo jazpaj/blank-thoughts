@@ -1,23 +1,27 @@
 import { startNightCity } from './night-city.js';
 
 /**
- * Background: licensed video when configured, otherwise the placeholder
- * night scene. Honors prefers-reduced-motion by showing a still.
+ * Background: the configured video, or the placeholder night scene when no
+ * video is set (or it fails to load). Honors prefers-reduced-motion by
+ * showing a still. The placeholder only starts once we know there is no
+ * video, so visitors never see a night scene before a daytime clip.
  */
 export function initScene({ canvas, video, reduced }) {
-  const placeholder = startNightCity(canvas, { still: reduced });
+  let placeholder = null;
+  const startPlaceholder = () => {
+    canvas.hidden = false;
+    placeholder ??= startNightCity(canvas, { still: reduced });
+  };
+  canvas.hidden = true;
 
   return {
     useVideo(config) {
       const isMobile = matchMedia('(max-width: 768px)').matches;
       const set = (isMobile && config?.mobile?.mp4 ? config.mobile : config?.desktop) ?? {};
       const poster = config?.poster;
-      if (!set.mp4 && !poster) return; // nothing supplied yet: keep placeholder
+      if (!set.mp4 && !poster) return startPlaceholder(); // nothing supplied
 
-      const showVideo = () => {
-        video.classList.add('is-playing');
-        placeholder.stop();
-      };
+      const showVideo = () => video.classList.add('is-playing');
 
       if (poster) {
         // The still poster frame appears first (and is all reduced-motion users get).
@@ -26,6 +30,7 @@ export function initScene({ canvas, video, reduced }) {
           video.poster = poster;
           showVideo();
         };
+        img.onerror = () => { if (!set.mp4) startPlaceholder(); };
         img.src = poster;
       }
       if (reduced || !set.mp4) {
@@ -40,11 +45,13 @@ export function initScene({ canvas, video, reduced }) {
         s.type = type;
         video.append(s);
       }
+      // If no source can play and there's no poster to fall back on, use the placeholder
+      video.lastElementChild?.addEventListener('error', () => { if (!poster) startPlaceholder(); });
       video.muted = true; // required for autoplay on iOS
       video.preload = 'auto';
       video.addEventListener('playing', showVideo, { once: true });
       video.load();
-      video.play().catch(() => { /* autoplay refused (e.g. Low Power Mode): poster/placeholder stays */ });
+      video.play().catch(() => { /* autoplay refused (e.g. Low Power Mode): the poster stays */ });
       // Browsers pause background video in hidden tabs; make sure it resumes on return
       document.addEventListener('visibilitychange', () => {
         if (!document.hidden && video.paused) video.play().catch(() => {});

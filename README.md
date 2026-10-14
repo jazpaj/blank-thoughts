@@ -92,7 +92,7 @@ These are needed from the client or need sign-off. The site runs without them, b
 - [ ] **Background video licence**: confirm `bg.mp4` is cleared for commercial web use (optional: lighter mobile cut + WebM)
 - [ ] **1–2 close-up teaser photos** for the hidden reveal
 - [ ] **Vector logo SVG** for the script "Our" (current one is a high-res extraction from the Instagram image), and a decision on whether the Instagram logo moves to the Inter capitals too (or the licensed premium grotesque the reference used, if the client knows it)
-- [ ] **Exact brand hex codes** (wine is currently `#7E0227`, sampled from the logo image; the brief's approximation was `#7D0029`)
+- [ ] **Exact brand hex codes.** At the client's request the card now uses a true deep red, `#6A1011` (sampled from their paper reference), with warm cream `#F6EBE1` / `#EEDFD3` and champagne lines; the logo-sampled wine `#7E0227` and the brief's `#7D0029` read pinker. Confirm against the brand file. Tokens live at the top of `public/css/styles.css`.
 - [ ] **Privacy Policy and SMS Terms text** (`public/privacy.html`, `public/sms-terms.html` are placeholders)
 - [ ] **Legal review** of the SMS consent wording (TCPA)
 - [ ] **Klaviyo access**: list ID, private key, welcome email + SMS flow, then one end-to-end test signup

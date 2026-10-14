@@ -4,25 +4,26 @@
    ========================================================================== */
 
 :root {
-  /* Brand tokens (approximate, sampled from the logo: swap for exact values from the source file) */
-  --wine: #7E0227;   /* sampled from the official logo image (brief approx. #7D0029) */
-  --wine-dark: #5E001F;
-  --ivory: #FFFFFF;
-  --blush: #F6ECEE;
+  /* Brand tokens: a true deep red with warm cream, sampled from the client's paper reference
+     (the earlier logo-sampled wine #7E0227 leaned blue, which read as pink) */
+  --wine: #6A1011;
+  --wine-dark: #520A0C;
+  --ivory: #F6EBE1;   /* warm cream: logo and headings */
+  --blush: #EEDFD3;   /* button / checked fill */
   --midnight: #0A0A0D;
 
   /* Derived */
-  --wine-deep: #2B000C;
-  --blush-80: rgba(246, 236, 238, .8);
-  --blush-65: rgba(246, 236, 238, .65);
-  --hairline: rgba(255, 255, 255, .55);
-  --line-soft: rgba(255, 255, 255, .36);
-  --error: #FFC9D6;
+  --wine-deep: #2A0506;
+  --blush-80: rgba(241, 227, 214, .84);
+  --blush-65: rgba(241, 227, 214, .68);
+  --hairline: rgba(233, 196, 178, .74);   /* champagne rule */
+  --line-soft: rgba(233, 196, 178, .46);
+  --error: #FFD3C2;
 
   --f-script: 'Pinyon Script', 'Snell Roundhand', cursive;
   /* Bodoni Moda: the high-contrast didone of fashion mastheads and garment labels */
   --f-serif: 'Bodoni Moda', 'Didot', 'Bodoni 72', 'Times New Roman', serif;
-  --f-logo: 'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif; /* logo BLANK THOUGHTS */
+  --f-logo: 'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif; /* logo caps, small caps, button */
 
   --ease-out: cubic-bezier(.16, 1, .3, 1);
   --ease-silk: cubic-bezier(.65, 0, .35, 1);
@@ -33,6 +34,8 @@
   --card-pad-y: 48px;
   --rule-inset: 20px;
 
+  /* Paper: low-frequency mottling for uneven tone (the fine tooth is --noise) */
+  --mottle: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='600' height='600'><filter id='m'><feTurbulence type='fractalNoise' baseFrequency='.006 .009' numOctaves='4' seed='11' stitchTiles='stitch'/><feColorMatrix type='saturate' values='0'/></filter><rect width='100%' height='100%' filter='url(%23m)'/></svg>");
   --noise: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/><feColorMatrix type='saturate' values='0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
 }
 
@@ -212,8 +215,8 @@ p { margin: 0; }
   position: relative;
   /* Shadow follows the cut corner, unlike box-shadow */
   filter:
-    drop-shadow(0 34px 44px rgba(0, 0, 0, .5))
-    drop-shadow(0 8px 14px rgba(0, 0, 0, .35));
+    drop-shadow(0 40px 50px rgba(0, 0, 0, .55))
+    drop-shadow(0 10px 16px rgba(0, 0, 0, .35));
   opacity: 0;
   transform: translateY(32px) scale(.985);
   transition:
@@ -222,12 +225,16 @@ p { margin: 0; }
 }
 .is-revealed .card { opacity: 1; transform: none; }
 
-/* Flat wine page with the bottom-right corner cut away where it folds back */
+/* Deep red paper, lit from above, with the bottom-right corner cut away where it curls back */
 .card__surface {
   position: absolute;
   inset: 0;
   overflow: hidden;
-  background: var(--wine);
+  border-radius: 6px;
+  background:
+    /* slightly purer than the target red: the paper layers grey it a touch */
+    radial-gradient(120% 60% at 50% -8%, #7C0B0C 0%, transparent 62%),
+    radial-gradient(140% 110% at 50% 45%, #6C0507 48%, #5E0304 100%);
   clip-path: polygon(0 0, 100% 0, 100% calc(100% - var(--fold)), calc(100% - var(--fold)) 100%, 0 100%);
   isolation: isolate;
 }
@@ -243,18 +250,33 @@ p { margin: 0; }
   opacity: .62;
 }
 
-/* The faintest paper tooth, so the flat colour still feels printed */
+/* Paper: uneven tone and a fine tooth */
 .card__paper {
   position: absolute;
   inset: 0;
-  background-image: var(--noise);
-  background-size: 160px;
-  mix-blend-mode: soft-light;
-  opacity: .22;
   pointer-events: none;
 }
+.card__paper::before,
+.card__paper::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+}
+.card__paper::before {
+  background-image: var(--mottle);
+  background-size: 640px;
+  mix-blend-mode: soft-light;
+  opacity: .3;
+}
+.card__paper::after {
+  background-image: var(--noise);
+  background-size: 140px;
+  mix-blend-mode: soft-light;
+  opacity: .22;
+  box-shadow: inset 0 0 90px rgba(25, 0, 2, .38);
+}
 
-/* Folded corner: the turned-back flap, a shade deeper, with its own hairline */
+/* Curled corner: the page lifts and turns back, casting a soft shadow on the card */
 .card__fold {
   position: absolute;
   right: 0;
@@ -269,16 +291,15 @@ p { margin: 0; }
   width: 100%;
   height: 100%;
   overflow: visible;
-  filter: drop-shadow(-3px -3px 6px rgba(30, 0, 10, .25));
+  filter:
+    drop-shadow(-5px -2px 7px rgba(20, 0, 0, .45))
+    drop-shadow(-1px 0 1px rgba(20, 0, 0, .35));
 }
-.card__fold-flap { fill: var(--wine-dark); }
-.card__fold-rule {
+.card__fold-edge {
   fill: none;
-  stroke: var(--hairline);
-  stroke-width: 1;
-  opacity: 0;
+  stroke: rgba(255, 196, 176, .38);
+  stroke-width: 1.2;
 }
-.is-revealed .card__fold-rule { opacity: 1; transition: opacity .8s ease 2s; }
 
 /* Thin inset hairline that draws itself */
 .card__rule {
@@ -329,7 +350,7 @@ p { margin: 0; }
   aspect-ratio: 735 / 219;
   margin: 0 auto;
 }
-.logo__art img,
+.logo__our,
 .logo__caps {
   position: absolute;
   top: 0;
@@ -356,21 +377,27 @@ p { margin: 0; }
   width: calc(205 / 735 * 100%);
   height: calc(103 / 219 * 100%);
 }
+/* The official script "Our", tinted cream through its alpha shape */
+.logo__our {
+  background: var(--ivory);
+  -webkit-mask: url("../assets/logo/logo-our.png") center / 100% 100% no-repeat;
+  mask: url("../assets/logo/logo-our.png") center / 100% 100% no-repeat;
+}
 /* The typed "Our" lands here; until then, keep the logo's own "Our" hidden */
 .logo__our { transition: opacity .6s ease; }
 .is-flying .logo__our { opacity: 0; transition: none; }
 
 .origin {
-  margin-top: 14px;
-  font-family: var(--f-serif);
-  font-weight: 600;
-  font-size: 12px;
+  margin-top: 16px;
+  font-family: var(--f-logo);
+  font-weight: 500;
+  font-size: 10.5px;
   line-height: 1.6;
-  letter-spacing: .1em;
+  letter-spacing: .3em;
   text-transform: uppercase;
-  color: var(--ivory);
+  color: var(--blush-80);
   /* letter-spacing adds trailing space: pull it back so the line is optically centred */
-  margin-right: -.1em;
+  margin-right: -.3em;
 }
 
 .card__head::after {
@@ -379,7 +406,7 @@ p { margin: 0; }
   width: 34px;
   height: 1px;
   margin: 24px auto 0;
-  background: var(--line-soft);
+  background: var(--hairline);
 }
 
 /* ---------- Signup view --------------------------------------------------- */
@@ -416,34 +443,51 @@ p { margin: 0; }
 
 .field + .field { margin-top: 12px; }
 
+.field__control { position: relative; }
+
+.field__icon {
+  position: absolute;
+  left: 18px;
+  top: 50%;
+  width: 19px;
+  height: 19px;
+  transform: translateY(-50%);
+  fill: none;
+  stroke: var(--blush-80);
+  stroke-width: 1.2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  pointer-events: none;
+}
+
 .field input {
   display: block;
   width: 100%;
-  height: 50px;
-  padding: 0 20px;
-  border: 1px solid rgba(246, 236, 238, .55);
+  height: 52px;
+  padding: 0 18px 0 54px;
+  border: 1px solid var(--line-soft);
   border-radius: 0;
-  background: rgba(60, 0, 18, .18);
+  background: rgba(255, 140, 120, .055);
   color: var(--ivory);
   font-family: var(--f-serif);
   font-size: 16px;
   font-weight: 400;
-  letter-spacing: .08em;
+  letter-spacing: .04em;
   text-align: left;
   appearance: none;
   outline: none;
   transition: border-color .35s ease, background-color .35s ease;
 }
 .field input::placeholder {
-  color: rgba(246, 236, 238, .62);
-  letter-spacing: .08em;
+  color: var(--blush-65);
+  letter-spacing: .04em;
   opacity: 1;
   transition: opacity .3s ease;
 }
-.field input:hover { border-color: rgba(246, 236, 238, .8); }
+.field input:hover { border-color: var(--hairline); }
 .field input:focus {
   border-color: var(--ivory);
-  background: rgba(60, 0, 18, .3);
+  background: rgba(241, 200, 190, .08);
 }
 .field input:focus::placeholder { opacity: .45; }
 .field input[aria-invalid="true"] { border-color: var(--error); }
@@ -489,12 +533,12 @@ p { margin: 0; }
 
 .checkbox {
   flex: none;
-  width: 17px;
-  height: 17px;
-  margin: 2px 0 0;
-  border: 1px solid rgba(255, 255, 255, .7);
+  width: 20px;
+  height: 20px;
+  margin: 1px 0 0;
+  border: 1px solid var(--hairline);
   border-radius: 0;
-  background: transparent center / 11px no-repeat;
+  background: transparent center / 12px no-repeat;
   appearance: none;
   cursor: pointer;
   transition: background-color .25s ease, border-color .25s ease;
@@ -502,7 +546,7 @@ p { margin: 0; }
 .checkbox:checked {
   background-color: var(--blush);
   border-color: var(--blush);
-  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'><path d='M2 6.3 4.8 9 10 3' fill='none' stroke='%237E0227' stroke-width='1.6'/></svg>");
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'><path d='M2 6.3 4.8 9 10 3' fill='none' stroke='%236E1012' stroke-width='1.6'/></svg>");
 }
 .checkbox[aria-invalid="true"] { border-color: var(--error); }
 
@@ -525,7 +569,7 @@ p { margin: 0; }
   text-transform: uppercase;
   color: var(--blush-65);
 }
-.consent__links a { text-decoration: none; border-bottom: 1px solid rgba(246, 236, 238, .35); transition: color .3s, border-color .3s; }
+.consent__links a { text-decoration: none; border-bottom: 1px solid rgba(241, 227, 214, .35); transition: color .3s, border-color .3s; }
 .consent__links a:hover { color: var(--ivory); border-color: var(--ivory); }
 .consent .field__error { text-align: left; padding-left: 29px; }
 
@@ -545,23 +589,40 @@ p { margin: 0; }
   position: relative;
   display: block;
   width: 100%;
-  height: 54px;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 22px;
   margin-top: 22px;
   padding: 0;
   border: 1px solid var(--blush);
   border-radius: 0;
   background: var(--blush);
   color: var(--wine);
-  font-family: var(--f-serif);
+  box-shadow: 0 10px 22px -14px rgba(0, 0, 0, .6);
+  font-family: var(--f-logo);
   font-size: 13px;
-  font-weight: 500;
-  letter-spacing: .24em;
+  font-weight: 600;
+  letter-spacing: .28em;
   text-transform: uppercase;
   cursor: pointer;
   overflow: hidden;
   transition: background-color .4s ease, color .4s ease, border-color .4s ease, transform .2s ease;
 }
-.button__label { display: inline-block; margin-right: -.24em; }
+.button__label { display: inline-block; margin-right: -.28em; }
+.button__arrow {
+  flex: none;
+  width: 24px;
+  height: 11px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.4;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transition: transform .35s var(--ease-out);
+}
+.button:hover .button__arrow { transform: translateX(4px); }
 .button:hover { background: var(--wine-dark); color: var(--blush); }
 .button:active { transform: translateY(1px); }
 .button:focus-visible { outline-offset: 3px; }
@@ -670,7 +731,7 @@ p { margin: 0; }
   align-items: center;
   gap: 11px;
   padding: 12px 20px;
-  border: 1px solid rgba(246, 236, 238, .55);
+  border: 1px solid rgba(241, 227, 214, .55);
   text-decoration: none;
   color: var(--blush);
   transition: background-color .4s ease, border-color .4s ease, color .4s ease;
@@ -738,7 +799,10 @@ p { margin: 0; }
   .card__head::after { margin-top: 18px; }
   .status { font-size: 40px; margin-top: 14px; }
   .teaser { font-size: 16px; margin-bottom: 18px; }
-  .field input { height: 48px; padding: 0 16px; } /* 16px font avoids iOS zoom-on-focus */
+  .field input { height: 50px; padding: 0 14px 0 46px; } /* 16px font avoids iOS zoom-on-focus */
+  .field__icon { left: 15px; width: 18px; height: 18px; }
+  .button { gap: 14px; letter-spacing: .22em; }
+  .button__label { margin-right: -.22em; }
   .field + .field { margin-top: 10px; }
   .button { height: 50px; margin-top: 18px; }
   .success__title { font-size: 26px; }

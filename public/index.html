@@ -16,7 +16,7 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..700;1,6..96,400..700&family=Inter:wght@500&family=Pinyon+Script&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..700;1,6..96,400..700&family=Inter:wght@500;600&family=Pinyon+Script&display=swap">
   <link rel="stylesheet" href="css/styles.css">
   <link rel="preload" href="assets/logo/logo-our.png" as="image">
   <link rel="modulepreload" href="js/validate.js">
@@ -48,11 +48,18 @@
         <svg class="card__rule" aria-hidden="true" focusable="false">
           <path pathLength="1"/>
         </svg>
-        <!-- Tactile detail: the bottom-right corner of the page, folded back -->
+        <!-- Tactile detail: the bottom-right corner of the page curls back -->
         <div class="card__fold" aria-hidden="true">
           <svg viewBox="0 0 100 100" preserveAspectRatio="none" focusable="false">
-            <path class="card__fold-flap" d="M0 0 H100 L0 100 Z"/>
-            <path class="card__fold-rule" d="M78 14 H14 V78" vector-effect="non-scaling-stroke"/>
+            <defs>
+              <linearGradient id="curl-face" x1="1" y1="1" x2=".1" y2=".05">
+                <stop offset="0" stop-color="#93231F"/>
+                <stop offset=".45" stop-color="#76120F"/>
+                <stop offset="1" stop-color="#560A0B"/>
+              </linearGradient>
+            </defs>
+            <path class="card__fold-flap" d="M100 0 C 70 2, 36 4, 13 8 C 9 35, 5 68, 0 100 C 30 79, 72 40, 100 0 Z" fill="url(#curl-face)"/>
+            <path class="card__fold-edge" d="M0 100 C 30 79, 72 40, 100 0" vector-effect="non-scaling-stroke"/>
           </svg>
         </div>
 
@@ -69,7 +76,7 @@
                   <text x="228" y="98">BLANK</text>
                   <text x="118" y="208">THOUGHTS</text>
                 </svg>
-                <img class="logo__our" src="assets/logo/logo-our.png" alt="" width="735" height="219" decoding="async">
+                <span class="logo__our"></span>
                 <span class="logo__our-target"></span>
               </span>
             </h1>
@@ -88,22 +95,31 @@
               <form class="form" method="post" novalidate autocomplete="on">
                 <div class="field enter" style="--i:4">
                   <label class="sr-only" for="f-name">Name</label>
-                  <input id="f-name" name="name" type="text" autocomplete="name" placeholder="Your name"
+                  <div class="field__control">
+                    <svg class="field__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="8.2" r="3.7"/><path d="M4.8 20c.6-3.9 3.6-6.2 7.2-6.2s6.6 2.3 7.2 6.2"/></svg>
+                    <input id="f-name" name="name" type="text" autocomplete="name" placeholder="Your name"
                          maxlength="80" required aria-describedby="e-name" spellcheck="false">
+                  </div>
                   <p class="field__error" id="e-name"></p>
                 </div>
 
                 <div class="field enter" style="--i:5">
                   <label class="sr-only" for="f-email">Email</label>
-                  <input id="f-email" name="email" type="email" autocomplete="email" inputmode="email"
+                  <div class="field__control">
+                    <svg class="field__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="3.2" y="5.6" width="17.6" height="12.8" rx="1"/><path d="m3.6 6.4 8.4 6.6 8.4-6.6M3.8 17.6l6.2-5.8M20.2 17.6 14 11.8"/></svg>
+                    <input id="f-email" name="email" type="email" autocomplete="email" inputmode="email"
                          placeholder="Your email" maxlength="254" required aria-describedby="e-email" spellcheck="false">
+                  </div>
                   <p class="field__error" id="e-email"></p>
                 </div>
 
                 <div class="field enter" style="--i:6">
                   <label class="sr-only" for="f-phone">Phone (optional)</label>
-                  <input id="f-phone" name="phone" type="tel" autocomplete="tel" inputmode="tel"
+                  <div class="field__control">
+                    <svg class="field__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M7.1 3.8 9.3 3.6l1.6 4.1-2 1.4a10.6 10.6 0 0 0 5.9 5.9l1.4-2 4.1 1.6-.2 2.2c-.1 1.2-1.1 2.1-2.3 2.1C9.7 18.9 5 14.3 5 6.3c0-1.3.9-2.3 2.1-2.5Z"/></svg>
+                    <input id="f-phone" name="phone" type="tel" autocomplete="tel" inputmode="tel"
                          placeholder="Your phone (optional)" maxlength="17" aria-describedby="e-phone">
+                  </div>
                   <p class="field__error" id="e-phone"></p>
                 </div>
 
@@ -126,7 +142,7 @@
                 <div class="turnstile" hidden></div>
 
                 <div class="enter" style="--i:7">
-                  <button class="button" type="submit"><span class="button__label">Enter Blank Thoughts</span></button>
+                  <button class="button" type="submit"><span class="button__label">Enter Blank Thoughts</span><svg class="button__arrow" viewBox="0 0 28 12" aria-hidden="true" focusable="false"><path d="M0 6h26M21 1l5 5-5 5"/></svg></button>
                 </div>
                 <p class="form__error" role="alert"></p>
               </form>

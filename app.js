@@ -34,6 +34,8 @@ const MIME = {
   '.mp4': 'video/mp4',
   '.webm': 'video/webm',
   '.woff2': 'font/woff2',
+  '.woff': 'font/woff',
+  '.otf': 'font/otf',
   '.txt': 'text/plain; charset=utf-8',
 };
 
